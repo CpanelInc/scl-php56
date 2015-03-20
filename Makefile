@@ -32,6 +32,11 @@ OBS_PACKAGE := php56-php
 # Variables
 #-------------------
 
+# allow override
+ifndef $(ARCH)
+ARCH := $(shell uname -m)
+endif
+
 ERRMSG := "Please read, https://cpanel.wiki/display/AL/Setting+up+yourself+for+using+OBS"
 OBS_USERNAME := $(shell grep -A5 '[build.dev.cpanel.net]' ~/.oscrc | awk -F= '/user=/ {print $$2}')
 # NOTE: OBS only like ascii alpha-numeric characters
@@ -39,7 +44,7 @@ GIT_BRANCH := $(shell git branch | awk '/^*/ { print $$2 }' | tr -c [A-Za-z0-9] 
 BUILD_TARGET := home:$(OBS_USERNAME):$(OBS_PROJECT):$(GIT_BRANCH)
 OBS_WORKDIR := $(BUILD_TARGET)/$(OBS_PACKAGE)
 
-.PHONY: all local obs check build-clean build-init
+.PHONY: all clean local vars chroot obs check build-clean build-init
 
 #-----------------------
 # Primary make targets
@@ -47,22 +52,35 @@ OBS_WORKDIR := $(BUILD_TARGET)/$(OBS_PACKAGE)
 
 all: local
 
+clean: build-clean
+
 # Builds the RPM on your local machine using the OBS infrstructure.
 # This is useful to test before submitting to OBS.
+#
+# For example, if you wanted to build PHP without running tests:
+#	OSC_BUILD_OPTS='--define="runselftest 0"' make local
 local: check
 	make build-init
-	cd OBS/$(OBS_WORKDIR) && osc build --noverify --disable-debuginfo
+	cd OBS/$(OBS_WORKDIR) && osc build $(OSC_BUILD_OPTS) --clean --noverify --disable-debuginfo
 	make build-clean
 
 # Commits local file changes to OBS, and ensures a build is performed.
 obs: check
 	make build-init
 	cd OBS/$(OBS_WORKDIR) && osc addremove -r 2> /dev/null || exit 0
-	cd OBS/$(OBS_WORKDIR) && osc ci -m "Makefile check-in - $(shell date)"
+	cd OBS/$(OBS_WORKDIR) && osc ci -m "Makefile check-in - date($(shell date)) branch($(GIT_BRANCH))"
+	make build-clean
+
+# This allows you to debug your build if it fails by logging into the
+# build environment and letting you manually run commands.
+chroot: check
+	make build-init
+	cd OBS/$(OBS_WORKDIR) && osc chroot --local-package -o CentOS_6.5_standard $(ARCH) $(OBS_PACKAGE)
 	make build-clean
 
 # Debug target: Prints out variables to ensure they're correct
 vars: check
+	@echo "ARCH: $(ARCH)"
 	@echo "OBS_USERNAME: $(OBS_USERNAME)"
 	@echo "GIT_BRANCH: $(GIT_BRANCH)"
 	@echo "BUILD_TARGET: $(BUILD_TARGET)"
@@ -88,6 +106,7 @@ check:
 	@[ -x /usr/bin/osc ] || make errmsg
 	@[ -x /usr/bin/build ] || make errmsg
 	@[ -d .git ] || ERRMSG="This isn't a git repository." make -e errmsg
+	@[ -n "$(ARCH)" ] || ERRMSG="Unable to determine host architecture type using ARCH environment variable" make -e errmsg
 
 errmsg:
 	@echo -e "\nERROR: You haven't set up OBS correctly on your machine.\n $(ERRMSG)\n"

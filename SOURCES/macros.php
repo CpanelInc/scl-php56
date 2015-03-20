@@ -1,15 +1,15 @@
 #
 # Interface versions exposed by PHP:
-# 
-%php56_php_core_api @PHP_APIVER@
-%php56_php_zend_api @PHP_ZENDVER@
-%php56_php_pdo_api  @PHP_PDOVER@
-%php56_php_version  @PHP_VERSION@
+#
+%@SCL@php_core_api @PHP_APIVER@
+%@SCL@php_zend_api @PHP_ZENDVER@
+%@SCL@php_pdo_api  @PHP_PDOVER@
+%@SCL@php_version  @PHP_VERSION@
 
-%php56_php_extdir   @LIBDIR@/php/modules
+%@SCL@php_extdir   @LIBDIR@/php/modules
 
-%php56_php_inidir   @ETCDIR@/php.d
+%@SCL@php_inidir   @ETCDIR@/php.d
 
-%php56_php_incldir  @INCDIR@/php
+%@SCL@php_incldir  @INCDIR@/php
 
-%php56___php        @BINDIR@/php
+%@SCL@__php        @BINDIR@/php
