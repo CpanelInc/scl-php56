@@ -40,7 +40,7 @@ endif
 ERRMSG := "Please read, https://cpanel.wiki/display/AL/Setting+up+yourself+for+using+OBS"
 OBS_USERNAME := $(shell grep -A5 '[build.dev.cpanel.net]' ~/.oscrc | awk -F= '/user=/ {print $$2}')
 # NOTE: OBS only like ascii alpha-numeric characters
-GIT_BRANCH := $(shell git branch | awk '/^*/ { print $$2 }' | tr -c [A-Za-z0-9] _)
+GIT_BRANCH := $(shell git branch | awk '/^*/ { print $$2 }' | sed -e 's/[^a-z0-9]/_/ig')
 BUILD_TARGET := home:$(OBS_USERNAME):$(OBS_PROJECT):$(GIT_BRANCH)
 OBS_WORKDIR := $(BUILD_TARGET)/$(OBS_PACKAGE)
 
