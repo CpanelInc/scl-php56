@@ -1536,10 +1536,10 @@ do
     else   ini=${mod}.ini
     fi
     # some extensions have their own config file
-    if [ -f ${ini} ]; then
-      cp -p ${ini} $RPM_BUILD_ROOT%{_sysconfdir}/php.d/${ini}
+    if [ -f %{_sourcedir}/$ini ]; then
+      cp -p %{_sourcedir}/$ini %{buildroot}%{_sysconfdir}/php.d/$ini
     else
-      cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/${ini} <<EOF
+      cat > %{buildroot}%{_sysconfdir}/php.d/$ini <<EOF
 ; Enable ${mod} extension module
 extension=${mod}.so
 EOF
@@ -1853,6 +1853,7 @@ fi
   current versions of CentOS (e.g. <= 7).  RHEL patches PHP to
   be compatible with the version of libzip that's supplied by
   them.
+- developer version of opcache.ini is distributed instead of auto-gen
 
 * Tue Mar 17 2015 S. Kurt Newman <kurt.newman@cpanel.net> - 5.6.6-0
 - Updated to PHP 5.6.6
