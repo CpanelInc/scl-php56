@@ -1,10 +1,12 @@
 # Defining the package namespace
+# NOTE: pkg variable is a hack to fix invalid macro inside of macros.php
 %global ns_name ea
 %global ns_dir /opt/cpanel
+%global pkg php56
 
 # Force Software Collections on
 %global _scl_prefix %{ns_dir}
-%global scl %{ns_name}-php56
+%global scl %{ns_name}-%{pkg}
 %scl_package %{scl}
 
 # API/ABI check
@@ -152,7 +154,7 @@ Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.6
-Release:  2%{?dist}
+Release:  3%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1078,7 +1080,7 @@ sed -e "s/@PHP_APIVER@/%{apiver}%{isasuffix}/" \
     -e "s:@ETCDIR@:%{_sysconfdir}:" \
     -e "s:@INCDIR@:%{_includedir}:" \
     -e "s:@BINDIR@:%{_bindir}:" \
-    -e 's/@SCL@/%{?scl:%{scl}_}/' \
+    -e 's/@SCL@/%{ns_name}_%{pkg}_/' \
     %{SOURCE3} | tee macros.php
 
 
@@ -1847,6 +1849,9 @@ fi
 
 
 %changelog
+* Tue Jun 02 2015 S. Kurt Newman <kurt.newman@cpanel.net> 5.6.6-3
+- Fix macros.php syntax error
+
 * Wed May 26 2015 Dan Muey <dan@cpanel.net> 5.6.6-2
 - Change ea-apache2 to ea-apache24
 - corrected version number in previous change log entry
