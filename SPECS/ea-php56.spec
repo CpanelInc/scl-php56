@@ -67,13 +67,13 @@
 %else
 %global with_embed     1
 %endif
+%global with_mcrypt    1
+%global mcrypt_prefix  /opt/cpanel/libmcrypt
 %if 0%{?fedora}
 %global with_interbase 1
-%global with_mcrypt    1
 %global with_mssql     1
 %else
 %global with_interbase 0
-%global with_mcrypt    0
 %global with_mssql     0
 %endif
 %if 0%{?fedora} || 0%{?rhel} == 6
@@ -154,7 +154,7 @@ Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.6
-Release:  5%{?dist}
+Release:  6%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -852,7 +852,8 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
-BuildRequires: libmcrypt-devel
+Requires: %{ns_name}-libmcrypt
+BuildRequires: %{ns_name}-libmcrypt-devel
 
 %description mcrypt
 The php-mcrypt package contains a dynamic shared object that will add
@@ -1259,7 +1260,7 @@ build --libdir=%{_libdir}/php \
       --with-pspell=shared \
       --enable-phar=shared \
 %if %{with_mcrypt}
-      --with-mcrypt=shared,%{_root_prefix} \
+      --with-mcrypt=shared,%{mcrypt_prefix} \
 %endif
 %if %{with_tidy}
       --with-tidy=shared,%{_root_prefix} \
@@ -1851,6 +1852,9 @@ fi
 
 
 %changelog
+* Thu Aug 06 2015 Trinity Quirk <trinity.quirk@cpanel.net> - 5.6.6-6
+- Enabled mcrypt for all builds
+
 * Tue Jul 28 2015 Darren Mobley <darren@cpanel.net> 5.6.6-5
 - Moved "ea-php-cli" to correct package
 
