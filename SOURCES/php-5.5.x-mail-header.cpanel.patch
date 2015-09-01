@@ -1,6 +1,6 @@
-From 596da53ac5dfcabeb3a38b6a52cbcb085c5fbf8f Mon Sep 17 00:00:00 2001
+From b599635d174d7ccd624202fb2bf3dc06fb14df7f Mon Sep 17 00:00:00 2001
 From: Kurt Newman <kurt.newman@cpanel.net>
-Date: Wed, 4 Mar 2015 13:58:41 -0600
+Date: Wed, 2 Sep 2015 10:29:21 -0500
 Subject: [PATCH] php-5.5.x-mail-header
 
 Case 61298: http://choon.net/opensource/php/php-5.5.x-mail-header.patch
@@ -9,11 +9,11 @@ Case 61298: http://choon.net/opensource/php/php-5.5.x-mail-header.patch
  1 file changed, 51 insertions(+)
 
 diff --git a/ext/standard/mail.c b/ext/standard/mail.c
-index 4a20671..b5f97eb 100644
+index 17c09db..1aafbe2 100644
 --- a/ext/standard/mail.c
 +++ b/ext/standard/mail.c
-@@ -291,6 +291,49 @@ PHPAPI int php_mail(char *to, char *subject, char *message, char *headers, char
- 		efree(f);
+@@ -334,6 +334,49 @@ PHPAPI int php_mail(char *to, char *subject, char *message, char *headers, char
+ 		MAIL_RET(0);
  	}
  
 +	/* Patched by Giam Teck Choon */
@@ -62,7 +62,7 @@ index 4a20671..b5f97eb 100644
  	if (!sendmail_path) {
  #if (defined PHP_WIN32 || defined NETWARE)
  		/* handle old style win smtp sending */
-@@ -354,6 +397,14 @@ PHPAPI int php_mail(char *to, char *subject, char *message, char *headers, char
+@@ -397,6 +440,14 @@ PHPAPI int php_mail(char *to, char *subject, char *message, char *headers, char
  #endif
  		fprintf(sendmail, "To: %s\n", to);
  		fprintf(sendmail, "Subject: %s\n", subject);
@@ -78,5 +78,5 @@ index 4a20671..b5f97eb 100644
  			fprintf(sendmail, "%s\n", hdr);
  		}
 -- 
-2.2.0
+2.5.0
 
