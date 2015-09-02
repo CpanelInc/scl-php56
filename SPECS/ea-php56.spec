@@ -14,7 +14,7 @@
 %global zendver     20131226
 %global pdover      20080721
 # Extension version
-%global opcachever  7.0.4-dev
+%global opcachever  7.0.6-dev
 
 # Adds -z now to the linker flags
 %global _hardened_build 1
@@ -153,8 +153,8 @@
 Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
-Version:  5.6.6
-Release:  6%{?dist}
+Version:  5.6.12
+Release:  1%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -180,7 +180,7 @@ Source51: opcache-default.blacklist
 Patch7: php-5.3.0-recode.centos.patch
 
 # Use the system timezone database, instead of the one distributed by PHP
-Patch42: php-5.3.1-systzdata-v10.centos.patch
+Patch42: php-5.6.12-systzdata-v12a.patch.centos.patch
 
 # Prevent pear package from dragging in devel, which drags in a lot of
 # stuff for a production machine: https://bugzilla.redhat.com/show_bug.cgi?id=657812
@@ -1852,6 +1852,9 @@ fi
 
 
 %changelog
+* Tue Sep 01 2015 Kurt Newman <kurt.newman@cpanel.net> - 5.6.12-1
+- Updated to version 5.6.12 via update_pkg.pl
+
 * Thu Aug 06 2015 Trinity Quirk <trinity.quirk@cpanel.net> - 5.6.6-6
 - Enabled mcrypt for all builds
 
