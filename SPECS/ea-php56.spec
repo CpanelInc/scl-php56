@@ -153,7 +153,7 @@
 Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
-Version:  5.6.12
+Version:  5.6.13
 Release:  1%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -180,7 +180,7 @@ Source51: opcache-default.blacklist
 Patch7: php-5.3.0-recode.centos.patch
 
 # Use the system timezone database, instead of the one distributed by PHP
-Patch42: php-5.6.12-systzdata-v12a.patch.centos.patch
+Patch42: php-5.6.13-systzdata-v12b.patch.centos.patch
 
 # Prevent pear package from dragging in devel, which drags in a lot of
 # stuff for a production machine: https://bugzilla.redhat.com/show_bug.cgi?id=657812
@@ -1852,6 +1852,10 @@ fi
 
 
 %changelog
+* Fri Sep 04 2015 Trinity Quirk <trinity.quirk@cpanel.net> - 5.6.13-1
+- Updated to version 5.6.13 via update_pkg.pl
+- Updated timezonedb patch
+
 * Tue Sep 01 2015 Kurt Newman <kurt.newman@cpanel.net> - 5.6.12-1
 - Updated to version 5.6.12 via update_pkg.pl
 
