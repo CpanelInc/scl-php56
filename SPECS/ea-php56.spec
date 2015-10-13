@@ -154,7 +154,7 @@ Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.14
-Release:  1%{?dist}
+Release:  2%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1421,7 +1421,7 @@ install -m 755 -d $RPM_BUILD_ROOT%{_httpd_contentdir}/icons
 install -m 644 php.gif $RPM_BUILD_ROOT%{_httpd_contentdir}/icons/%{name}.gif
 %if %{?scl:1}0
 install -m 755 -d $RPM_BUILD_ROOT%{_root_httpd_moddir}
-ln -s %{_httpd_moddir}/libphp5.so      $RPM_BUILD_ROOT%{_root_httpd_moddir}/lib%{name}5.so
+ln -s %{_httpd_moddir}/libphp5.so      $RPM_BUILD_ROOT%{_root_httpd_moddir}/libphp5.so
 %endif
 
 %endif
@@ -1703,7 +1703,7 @@ fi
 %if 0%{?scl:1}
 #%dir %{_libdir}/apache2
 #%dir %{_libdir}/apache2/modules
-%{_root_httpd_moddir}/lib%{name}5.so
+%{_root_httpd_moddir}/libphp5.so
 %endif
 %attr(0770,root,apache) %dir %{_localstatedir}/lib/php/session
 %attr(0770,root,apache) %dir %{_localstatedir}/lib/php/wsdlcache
@@ -1852,6 +1852,9 @@ fi
 
 
 %changelog
+* Tue Oct 13 2015 Dan Muey <dan@cpanel.net> - 5.6.14-2
+- Use libphp5.so as module name for simplicity/consistency
+
 * Fri Oct 02 2015 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.14-1
 - Updated to version 5.6.14 via update_pkg.pl
 
