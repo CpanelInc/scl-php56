@@ -153,8 +153,8 @@
 Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
-Version:  5.6.14
-Release:  2%{?dist}
+Version:  5.6.15
+Release:  1%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1852,6 +1852,9 @@ fi
 
 
 %changelog
+* Mon Nov 02 2015 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.15-1
+- Updated to version 5.6.15 via update_pkg.pl
+
 * Tue Oct 13 2015 Dan Muey <dan@cpanel.net> - 5.6.14-2
 - Use libphp5.so as module name for simplicity/consistency
 
