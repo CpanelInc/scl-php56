@@ -154,7 +154,7 @@ Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.16
-Release:  1%{?dist}
+Release:  2%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -287,6 +287,7 @@ Summary: PHP FastCGI Process Manager
 License: PHP and Zend and BSD
 Requires(pre): %{_root_sbindir}/useradd
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 %if %{with_systemd}
 BuildRequires: systemd-devel
 BuildRequires: systemd-units
@@ -1853,6 +1854,9 @@ fi
 
 
 %changelog
+* Wed Dec 09 2015 Dan Muey <dan@cpanel.net> - 5.6.16-2
+- make ea-php5x-php-fpm depend on ea-php5X-php-cli
+
 * Thu Nov 26 2015 Kurt Newman <kurt.newman@cpanel.net> - 5.6.16-1
 - Updated to version 5.6.16 via update_pkg.pl
 
