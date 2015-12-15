@@ -1,0 +1,131 @@
+From 35083e672b58986c6a3a610d68ad6bd6415f1630 Mon Sep 17 00:00:00 2001
+From: Kurt Newman <kurt.newman@cpanel.net>
+Date: Fri, 11 Dec 2015 12:18:01 -0600
+Subject: [PATCH] Removed ZTS support
+
+Case EA-3788: This patch removes threaded support in PHP for the
+following reasons:
+ 1. Most of the 3rd party extensions we deliver aren't compatible
+    with a threaded MPM and/or PHP.
+ 2. The PHP devs would rather see users using the fastcgi or fpm
+    implementations, instead of a threaded PHP.
+    http://php.net/manual/en/faq.installation.php#faq.installation.apache2
+---
+ configure                     | 48 -------------------------------------------
+ sapi/apache2filter/config.m4  | 11 ----------
+ sapi/apache2handler/config.m4 | 11 ----------
+ 3 files changed, 70 deletions(-)
+
+diff --git a/configure b/configure
+index 4ebeab8..1a2c064 100755
+--- a/configure
++++ b/configure
+@@ -8319,30 +8319,6 @@ EOF
+     ;;
+   esac
+ 
+-  if test "$APACHE_VERSION" -lt 2004001; then
+-    APXS_MPM=`$APXS -q MPM_NAME`
+-    if test "$APXS_MPM" != "prefork" && test "$APXS_MPM" != "peruser" && test "$APXS_MPM" != "itk"; then
+-
+-  enable_maintainer_zts=yes
+-  if test "$pthreads_working" != "yes"; then
+-    as_fn_error $? "ZTS currently requires working POSIX threads. We were unable to verify that your system supports Pthreads." "$LINENO" 5
+-  fi
+-
+-    fi
+-  else
+-    APACHE_THREADED_MPM=`$APXS_HTTPD -V | grep 'threaded:.*yes'`
+-    if test -n "$APACHE_THREADED_MPM"; then
+-
+-  enable_maintainer_zts=yes
+-  if test "$pthreads_working" != "yes"; then
+-    as_fn_error $? "ZTS currently requires working POSIX threads. We were unable to verify that your system supports Pthreads." "$LINENO" 5
+-  fi
+-
+-    fi
+-  fi
+-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+-$as_echo "yes" >&6; }
+-
+   PHP_VAR_SUBST="$PHP_VAR_SUBST APXS"
+ 
+ else
+@@ -9143,30 +9119,6 @@ EOF
+     ;;
+   esac
+ 
+-  if test "$APACHE_VERSION" -lt 2004001; then
+-    APXS_MPM=`$APXS -q MPM_NAME`
+-    if test "$APXS_MPM" != "prefork" && test "$APXS_MPM" != "peruser" && test "$APXS_MPM" != "itk"; then
+-
+-  enable_maintainer_zts=yes
+-  if test "$pthreads_working" != "yes"; then
+-    as_fn_error $? "ZTS currently requires working POSIX threads. We were unable to verify that your system supports Pthreads." "$LINENO" 5
+-  fi
+-
+-    fi
+-  else
+-    APACHE_THREADED_MPM=`$APXS_HTTPD -V | grep 'threaded:.*yes'`
+-    if test -n "$APACHE_THREADED_MPM"; then
+-
+-  enable_maintainer_zts=yes
+-  if test "$pthreads_working" != "yes"; then
+-    as_fn_error $? "ZTS currently requires working POSIX threads. We were unable to verify that your system supports Pthreads." "$LINENO" 5
+-  fi
+-
+-    fi
+-  fi
+-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+-$as_echo "yes" >&6; }
+-
+   PHP_VAR_SUBST="$PHP_VAR_SUBST APXS"
+ 
+ else
+diff --git a/sapi/apache2filter/config.m4 b/sapi/apache2filter/config.m4
+index b6524fd..896f571 100644
+--- a/sapi/apache2filter/config.m4
++++ b/sapi/apache2filter/config.m4
+@@ -117,17 +117,6 @@ if test "$PHP_APXS2FILTER" != "no"; then
+     ;;
+   esac
+ 
+-  if test "$APACHE_VERSION" -lt 2004001; then
+-    APXS_MPM=`$APXS -q MPM_NAME`
+-    if test "$APXS_MPM" != "prefork" && test "$APXS_MPM" != "peruser" && test "$APXS_MPM" != "itk"; then
+-      PHP_BUILD_THREAD_SAFE
+-    fi
+-  else
+-    APACHE_THREADED_MPM=`$APXS_HTTPD -V | grep 'threaded:.*yes'`
+-    if test -n "$APACHE_THREADED_MPM"; then
+-      PHP_BUILD_THREAD_SAFE
+-    fi
+-  fi
+   AC_MSG_RESULT(yes)
+   PHP_SUBST(APXS)
+ else
+diff --git a/sapi/apache2handler/config.m4 b/sapi/apache2handler/config.m4
+index 753de10..9c536d9 100644
+--- a/sapi/apache2handler/config.m4
++++ b/sapi/apache2handler/config.m4
+@@ -116,17 +116,6 @@ if test "$PHP_APXS2" != "no"; then
+     ;;
+   esac
+ 
+-  if test "$APACHE_VERSION" -lt 2004001; then
+-    APXS_MPM=`$APXS -q MPM_NAME`
+-    if test "$APXS_MPM" != "prefork" && test "$APXS_MPM" != "peruser" && test "$APXS_MPM" != "itk"; then
+-      PHP_BUILD_THREAD_SAFE
+-    fi
+-  else
+-    APACHE_THREADED_MPM=`$APXS_HTTPD -V | grep 'threaded:.*yes'`
+-    if test -n "$APACHE_THREADED_MPM"; then
+-      PHP_BUILD_THREAD_SAFE
+-    fi
+-  fi
+   AC_MSG_RESULT(yes)
+   PHP_SUBST(APXS)
+ else
+-- 
+2.6.3
+
