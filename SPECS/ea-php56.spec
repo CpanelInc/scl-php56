@@ -232,6 +232,8 @@ BuildRequires: ea-apache24-devel
 # for us.
 Requires: ea-apache24-mmn = %{_httpd_mmn}
 Provides: %{?scl_prefix}mod_php = %{version}-%{release}
+Provides: ea-mod_php%{?_isa} = %{version}-%{release}
+Conflicts: ea-mod_php
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 # To ensure correct /var/lib/php/session ownership:
 Requires(pre): ea-webserver
