@@ -26,13 +26,13 @@ BUILD := /usr/bin/build
 RPMLINT := /usr/bin/rpmlint
 
 # allow developer to override which pacakge to debug when doing 'make chroot'
-ifndef $(ARCH)
+ifndef ARCH
 ARCH := $(shell uname -m)
 endif
 
 # allows developers to branch off of a project in different OBS repo that may not
 # exist in $(OBS_PROJECT) yet (e.g. new packages)
-ifndef $(BRANCH_PROJECT)
+ifndef BRANCH_PROJECT
 BRANCH_PROJECT := $(OBS_PROJECT)
 endif
 
@@ -108,7 +108,7 @@ chroot:
 obs:
 	make build-init
 	cd OBS/$(OBS_WORKDIR) && $(OSC) addremove -r 2> /dev/null || exit 0
-	cd OBS/$(OBS_WORKDIR) && $(OSC) ci -m "action(commit) make(obs.mk) hostname($(HOSTNAME)) date($(shell date)) branch($(ORIG_GIT_BRANCH))"
+	cd OBS/$(OBS_WORKDIR) && $(OSC) ci -m "action(commit) file(Makefile) hostname($(HOSTNAME)) date($(shell date)) branch($(ORIG_GIT_BRANCH))"
 	make build-clean
 
 # Debug target: Prints out variables to ensure they're correct
@@ -151,8 +151,8 @@ check:
 	@[ -n "$(OBS_PROJECT)" ] || DISPMSG="You must define the OBS_PROJECT variable in your Makefile" make -e errmsg
 	@[ -d .git ] || DISPMSG="This isn't a git repository." make -e errmsg
 	@[ -n "$(GIT_BRANCH)" ] || DISPMSG="Are you sure you're in a git repository?" make -e errmsg
-	@rpm -q osc &>/dev/null || make -e errmsg
-	@rpm -q build &>/dev/null || make errmsg
+	@[ -z "$(bamboo_repository_git_branch)" ] && ( rpm -q osc &>/dev/null || make errmsg ) || exit 0
+	@[ -z "$(bamboo_repository_git_branch)" ] && ( rpm -q build &>/dev/null || make errmsg ) || exit 0
 	@[ -z "$(bamboo_repository_git_branch)" ] && ( [ -x $(RPMLINT) ] || DISPMSG="You should use YUM to install the 'rpmlint' package" make -e warnmsg ) || exit 0
 	@[ -e ~/.oscrc ] || make errmsg
 	@[ -n "$(OBS_USERNAME)" ] || make errmsg
