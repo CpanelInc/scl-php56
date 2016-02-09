@@ -1110,8 +1110,6 @@ touch configure.in
 
 CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -Wno-pointer-sign"
 export CFLAGS
-CPPFLAGS="-I. -I%{_includedir}/imap"
-export CPPFLAGS
 
 # Install extension modules in %{_libdir}/php/modules.
 EXTENSION_DIR=%{_libdir}/php/modules; export EXTENSION_DIR
