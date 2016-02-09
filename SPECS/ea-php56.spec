@@ -1862,6 +1862,9 @@ fi
 * Mon Feb 08 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.18-1
 - Updated to version 5.6.18 via update_pkg.pl (EA-4151)
 
+* Tue Feb 02 2016 David Nielson <david.nielson@cpanel.net> - 5.6.17-2
+- Improve DSO conflicts (EA-3751)
+
 * Thu Jan 07 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.17-1
 - Updated to version 5.6.17 via update_pkg.pl (EA-4051)
 
