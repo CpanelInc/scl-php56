@@ -25,15 +25,15 @@ OSC := /usr/bin/osc
 BUILD := /usr/bin/build
 RPMLINT := /usr/bin/rpmlint
 
-# allow developer to override which pacakge to debug when doing 'make chroot'
-ifndef ARCH
-ARCH := $(shell uname -m)
-endif
-
 # allows developers to branch off of a project in different OBS repo that may not
 # exist in $(OBS_PROJECT) yet (e.g. new packages)
 ifndef BRANCH_PROJECT
 BRANCH_PROJECT := $(OBS_PROJECT)
+endif
+
+# allow developer to override which pacakge to debug when doing 'make chroot'
+ifndef ARCH
+ARCH := $(shell uname -m)
 endif
 
 DISPMSG := $(shell echo -en "You haven't set up OBS correctly on your machine.\nPlease read, https://cpanel.wiki/display/AL/Setting+up+yourself+for+using+OBS")
@@ -41,13 +41,14 @@ OBS_USERNAME := $(shell grep -A5 '[build.dev.cpanel.net]' ~/.oscrc 2>/dev/null| 
 
 # NOTE: OBS only like ascii alpha-numeric characters
 ORIG_GIT_BRANCH := $(shell git branch 2>/dev/null | awk '/^*/ { print $$2 }')
-GIT_BRANCH := $(shell echo $(ORIG_GIT_BRANCH) | sed -e 's/[^a-z0-9]/-/ig')
 ifdef bamboo_repository_git_branch
 GIT_BRANCH := $(bamboo_repository_git_branch)
+else
+GIT_BRANCH := $(ORIG_GIT_BRANCH)
 endif
 
-# OBS does not support / in branch names
-GIT_BRANCH := $(subst /,-,$(GIT_BRANCH))
+# OBS only supports alpha-numeric branch names
+GIT_BRANCH := $(shell echo "$(GIT_BRANCH)" | sed -e 's/[^a-z0-9]/-/ig')
 
 # if we're pushing to master, push to the upstream project
 ifeq ($(bamboo_repository_git_branch),master)
@@ -104,11 +105,14 @@ chroot:
 	cd OBS/$(OBS_WORKDIR) && $(OSC) chroot --local-package -o CentOS_6.5_standard $(ARCH) $(OBS_PACKAGE)
 	make build-clean
 
-# Commits local file changes to OBS, and ensures a build is performed.
+# Commits local file changes to OBS, then ensures that changes are queued for a build and
+# are published once complete.
 obs:
 	make build-init
 	cd OBS/$(OBS_WORKDIR) && $(OSC) addremove -r 2> /dev/null || exit 0
-	cd OBS/$(OBS_WORKDIR) && $(OSC) ci -m "action(commit) file(Makefile) hostname($(HOSTNAME)) date($(shell date)) branch($(ORIG_GIT_BRANCH))"
+	cd OBS/$(OBS_WORKDIR) && $(OSC) ci -m "action(commit) file(Makefile) hostname($(shell hostname)) date($(shell date)) branch($(ORIG_GIT_BRANCH))"
+	$(OSC) api -X POST "/source/$(BUILD_TARGET)?cmd=set_flag&flag=publish&status=enable"
+	$(OSC) api -X POST "/source/$(BUILD_TARGET)?cmd=set_flag&flag=build&status=enable"
 	make build-clean
 
 # Debug target: Prints out variables to ensure they're correct
