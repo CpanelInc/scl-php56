@@ -151,8 +151,8 @@
 Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
-Version:  5.6.18
-Release:  3%{?dist}
+Version:  5.6.19
+Release:  1%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1856,6 +1856,9 @@ fi
 
 
 %changelog
+* Fri Mar 04 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.19-1
+- Updated to version 5.6.19 via update_pkg.pl (EA-4234)
+
 * Fri Feb 19 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.6.18-3 
 - mod_php adjusted to conflict with other mod_php versions, and
   not itself.  this lets the user reinstall the package without
