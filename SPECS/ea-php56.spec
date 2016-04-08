@@ -115,11 +115,8 @@
 %endif
 
 # libvpx is needed by the gd extension to provide webp support.
-# however, libvpx was removed in centos 7 forcing libwebp as
-# the alternative.  unfortunately, libwebp is only supported
-# starting in php 7.0.  this means, there's a webp support gap
-# for centos 7+ users using this php version.
-%if 0%{?rhel} < 7
+# it's currently provided on centos 6 & 7
+%if 0%{?rhel} < 8
 %global  with_libvpx  1
 %else
 %global  with_libvpx  0
