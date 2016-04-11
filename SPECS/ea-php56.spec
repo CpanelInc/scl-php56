@@ -65,6 +65,7 @@
 %else
 %global with_embed     1
 %endif
+
 %global with_mcrypt    1
 %global mcrypt_prefix  /opt/cpanel/libmcrypt
 %if 0%{?fedora}
@@ -113,17 +114,12 @@
 %global with_dtrace 1
 %endif
 
-# build with system libgd
-%if 0%{?fedora} < 20
-%global  with_libgd 0
+# libvpx is needed by the gd extension to provide webp support.
+# it's currently provided on centos 6 & 7
+%if 0%{?rhel} < 8
+%global  with_libvpx  1
 %else
-%global  with_libgd 1
-%endif
-
-%if 0%{?rhel} < 7
-%global  with_vpx  0
-%else
-%global  with_vpx  1
+%global  with_libvpx  0
 %endif
 
 %if 0%{?fedora} < 16 && 0%{?rhel} < 7
@@ -152,7 +148,7 @@ Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.20
-Release:  1%{?dist}
+Release:  2%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -275,7 +271,7 @@ Provides: %{?scl_prefix}php-readline = %{version}-%{release}, %{?scl_prefix}php-
 Requires: ea-php-cli
 
 %description cli
-The php-cli package contains the command-line interface
+The %{?scl_prefix}php-cli package contains the command-line interface
 executing PHP scripts, /usr/bin/php, and the CGI interface.
 
 
@@ -352,8 +348,8 @@ Provides: %{?scl_prefix}php-zlib = %{version}-%{release}, %{?scl_prefix}php-zlib
 %{?scl:Requires: %{scl}-runtime}
 
 %description common
-The php-common package contains files used by both the php
-package and the php-cli package.
+The %{?scl_prefix}php-common package contains files used by both
+the %{?scl_prefix}php package and the %{?scl_prefix}php-cli package.
 
 %package devel
 Group: Development/Libraries
@@ -362,11 +358,9 @@ Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}, autoconf, autom
 %if %{with_pcre}
 Requires: pcre-devel%{?_isa} >= 8.10
 %endif
-# Temporary circular dep (to remove for bootstrap)
-#Requires: %{?scl_prefix}php-pecl-jsonc-devel%{?_isa}
 
 %description devel
-The php-devel package contains the files needed for building PHP
+The %{?scl_prefix}php-devel package contains the files needed for building PHP
 extensions. If you need to compile your own PHP extensions, you will
 need to install this package.
 
@@ -515,7 +509,7 @@ BuildRequires: %{?scl_prefix}libc-client-devel%{?_isa}
 Conflicts: %{?scl_prefix}php-recode = %{version}-%{release}
 
 %description imap
-The php-imap module will add IMAP (Internet Message Access Protocol)
+The %{?scl_prefix}php-imap module will add IMAP (Internet Message Access Protocol)
 support to PHP. IMAP is a protocol for retrieving and uploading e-mail
 messages on mail servers. PHP is an HTML-embedded scripting language.
 
@@ -528,7 +522,7 @@ Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 BuildRequires: cyrus-sasl-devel, openldap-devel, openssl-devel
 
 %description ldap
-The php-ldap package adds Lightweight Directory Access Protocol (LDAP)
+The %{?scl_prefix}php-ldap package adds Lightweight Directory Access Protocol (LDAP)
 support to PHP. LDAP is a set of protocols for accessing directory
 services over the Internet. PHP is an HTML-embedded scripting
 language.
@@ -548,7 +542,7 @@ Provides: %{?scl_prefix}php-sqlite3 = %{version}-%{release}, %{?scl_prefix}php-s
 Provides: %{?scl_prefix}php-pdo_sqlite = %{version}-%{release}, %{?scl_prefix}php-pdo_sqlite%{?_isa} = %{version}-%{release}
 
 %description pdo
-The php-pdo package contains a dynamic shared object that will add
+The %{?scl_prefix}php-pdo package contains a dynamic shared object that will add
 a database access abstraction layer to PHP.  This module provides
 a common interface for accessing MySQL, PostgreSQL or other
 databases.
@@ -568,7 +562,7 @@ BuildRequires: mysql-devel >= 4.1.0
 Conflicts: %{?scl_prefix}php-mysqlnd
 
 %description mysql
-The php-mysql package contains a dynamic shared object that will add
+The %{?scl_prefix}php-mysql package contains a dynamic shared object that will add
 MySQL database support to PHP. MySQL is an object-relational database
 management system. PHP is an HTML-embeddable scripting language. If
 you need MySQL support for PHP applications, you will need to install
@@ -592,7 +586,7 @@ Obsoletes: %{?scl_prefix}php-mysql < %{version}-%{release}
 %endif
 
 %description mysqlnd
-The php-mysqlnd package contains a dynamic shared object that will add
+The %{?scl_prefix}php-mysqlnd package contains a dynamic shared object that will add
 MySQL database support to PHP. MySQL is an object-relational database
 management system. PHP is an HTML-embeddable scripting language. If
 you need MySQL support for PHP applications, you will need to install
@@ -623,7 +617,7 @@ Provides: %{?scl_prefix}php-pdo_pgsql = %{version}-%{release}, %{?scl_prefix}php
 BuildRequires: krb5-devel, openssl-devel, postgresql-devel
 
 %description pgsql
-The php-pgsql package add PostgreSQL database support to PHP.
+The %{?scl_prefix}php-pgsql package add PostgreSQL database support to PHP.
 PostgreSQL is an object-relational database management
 system that supports almost all SQL constructs. PHP is an
 HTML-embedded scripting language. If you need back-end support for
@@ -642,7 +636,7 @@ Provides: %{?scl_prefix}php-sysvshm = %{version}-%{release}, %{?scl_prefix}php-s
 Provides: %{?scl_prefix}php-sysvmsg = %{version}-%{release}, %{?scl_prefix}php-sysvmsg%{?_isa} = %{version}-%{release}
 
 %description process
-The php-process package contains dynamic shared objects which add
+The %{?scl_prefix}php-process package contains dynamic shared objects which add
 support to PHP using system interfaces for inter-process
 communication.
 
@@ -658,7 +652,7 @@ Provides: %{?scl_prefix}php-pdo_odbc = %{version}-%{release}, %{?scl_prefix}php-
 BuildRequires: unixODBC-devel
 
 %description odbc
-The php-odbc package contains a dynamic shared object that will add
+The %{?scl_prefix}php-odbc package contains a dynamic shared object that will add
 database support through ODBC to PHP. ODBC is an open specification
 which provides a consistent API for developers to use for accessing
 data sources (which are often, but not always, databases). PHP is an
@@ -675,7 +669,7 @@ Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 BuildRequires: libxml2-devel
 
 %description soap
-The php-soap package contains a dynamic shared object that will add
+The %{?scl_prefix}php-soap package contains a dynamic shared object that will add
 support to PHP for using the SOAP web services protocol.
 
 %package sockets
@@ -704,7 +698,7 @@ Provides: %{?scl_prefix}php-firebird = %{version}-%{release}, %{?scl_prefix}php-
 Provides: %{?scl_prefix}php-pdo_firebird = %{version}-%{release}, %{?scl_prefix}php-pdo_firebird%{?_isa} = %{version}-%{release}
 
 %description interbase
-The php-interbase package contains a dynamic shared object that will add
+The %{?scl_prefix}php-interbase package contains a dynamic shared object that will add
 database support through Interbase/Firebird to PHP.
 
 InterBase is the name of the closed-source variant of this RDBMS that was
@@ -726,7 +720,7 @@ Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}, net-snmp
 BuildRequires: net-snmp-devel
 
 %description snmp
-The php-snmp package contains a dynamic shared object that will add
+The %{?scl_prefix}php-snmp package contains a dynamic shared object that will add
 support for querying SNMP devices to PHP.  PHP is an HTML-embeddable
 scripting language. If you need SNMP support for PHP applications, you
 will need to install this package and the php package.
@@ -747,7 +741,7 @@ Provides: %{?scl_prefix}php-simplexml = %{version}-%{release}, %{?scl_prefix}php
 BuildRequires: libxslt-devel >= 1.0.18-1, libxml2-devel >= 2.4.14-1
 
 %description xml
-The php-xml package contains dynamic shared objects which add support
+The %{?scl_prefix}php-xml package contains dynamic shared objects which add support
 to PHP for manipulating XML documents using the DOM tree,
 and performing XSL transformations on XML documents.
 
@@ -760,7 +754,7 @@ License: PHP and BSD
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 
 %description xmlrpc
-The php-xmlrpc package contains a dynamic shared object that will add
+The %{?scl_prefix}php-xmlrpc package contains a dynamic shared object that will add
 support for the XML-RPC protocol to PHP.
 
 %package mbstring
@@ -774,43 +768,28 @@ License: PHP and LGPLv2 and BSD and OpenLDAP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 
 %description mbstring
-The php-mbstring package contains a dynamic shared object that will add
+The %{?scl_prefix}php-mbstring package contains a dynamic shared object that will add
 support for multi-byte string handling to PHP.
 
 %package gd
 Summary: A module for PHP applications for using the gd graphics library
 Group: Development/Languages
-# All files licensed under PHP version 3.01
-%if %{with_libgd}
-License: PHP
-%else
 # bundled libgd is licensed under BSD
 License: PHP and BSD
-%endif
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
-# Required to build the bundled GD library
-BuildRequires: libjpeg-devel, libpng-devel, freetype-devel
-BuildRequires: libXpm-devel
+Requires: libjpeg-turbo%{?_isa}, libpng%{?_isa}, libXpm%{?_isa}, freetype%{?_isa}
+BuildRequires: libjpeg-turbo-devel%{?_isa}, libpng-devel%{?_isa}, libXpm-devel%{?_isa}, freetype-devel%{?_isa}
 %if %{with_t1lib}
+Requires: t1lib%{?_isa}
 BuildRequires: t1lib-devel
 %endif
-%if %{with_libgd}
-BuildRequires: gd-devel >= 2.1.0
-%else
-# Required to build the bundled GD library
-BuildRequires: libjpeg-devel, libpng-devel, freetype-devel
-BuildRequires: libXpm-devel, t1lib-devel
-BuildRequires: libjpeg-devel
-BuildRequires: libpng-devel
-BuildRequires: freetype-devel
-BuildRequires: libXpm-devel
-%if %{with_vpx}
+%if %{with_libvpx}
+Requires: libvpx%{?_isa}
 BuildRequires: libvpx-devel
-%endif
 %endif
 
 %description gd
-The php-gd package contains a dynamic shared object that will add
+The %{?scl_prefix}php-gd package contains a dynamic shared object that will add
 support for using the gd graphics library to PHP.
 
 %package gmp
@@ -834,7 +813,7 @@ License: PHP and LGPLv2+
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 
 %description bcmath
-The php-bcmath package contains a dynamic shared object that will add
+The %{?scl_prefix}php-bcmath package contains a dynamic shared object that will add
 support for using the bcmath library to PHP.
 
 %package dba
@@ -846,7 +825,7 @@ BuildRequires: %{db_devel}, tokyocabinet-devel
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 
 %description dba
-The php-dba package contains a dynamic shared object that will add
+The %{?scl_prefix}php-dba package contains a dynamic shared object that will add
 support for using the DBA database abstraction layer to PHP.
 
 %if %{with_mcrypt}
@@ -860,7 +839,7 @@ Requires: %{ns_name}-libmcrypt
 BuildRequires: %{ns_name}-libmcrypt-devel
 
 %description mcrypt
-The php-mcrypt package contains a dynamic shared object that will add
+The %{?scl_prefix}php-mcrypt package contains a dynamic shared object that will add
 support for using the mcrypt library to PHP.
 %endif
 
@@ -874,7 +853,7 @@ Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 BuildRequires: libtidy-devel
 
 %description tidy
-The php-tidy package contains a dynamic shared object that will add
+The %{?scl_prefix}php-tidy package contains a dynamic shared object that will add
 support for using the tidy library to PHP.
 %endif
 
@@ -889,7 +868,7 @@ BuildRequires: freetds-devel
 Provides: %{?scl_prefix}php-pdo_dblib = %{version}-%{release}, %{?scl_prefix}php-pdo_dblib%{?_isa} = %{version}-%{release}
 
 %description mssql
-The php-mssql package contains a dynamic shared object that will
+The %{?scl_prefix}php-mssql package contains a dynamic shared object that will
 add MSSQL database support to PHP.  It uses the TDS (Tabular
 DataStream) protocol through the freetds library, hence any
 database server which supports TDS can be accessed.
@@ -905,7 +884,7 @@ Provides: %{?scl_prefix}php-embedded-devel = %{version}-%{release}
 Provides: %{?scl_prefix}php-embedded-devel%{?_isa} = %{version}-%{release}
 
 %description embedded
-The php-embedded package contains a library which can be embedded
+The %{?scl_prefix}php-embedded package contains a library which can be embedded
 into applications to provide PHP scripting language support.
 %endif
 
@@ -918,7 +897,7 @@ Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 BuildRequires: aspell-devel >= 0.50.0
 
 %description pspell
-The php-pspell package contains a dynamic shared object that will add
+The %{?scl_prefix}php-pspell package contains a dynamic shared object that will add
 support for using the pspell library to PHP.
 
 %if %{with_recode}
@@ -932,7 +911,7 @@ BuildRequires: recode-devel
 Conflicts: %{?scl_prefix}php-imap = %{version}-%{release}
 
 %description recode
-The php-recode package contains a dynamic shared object that will add
+The %{?scl_prefix}php-recode package contains a dynamic shared object that will add
 support for using the recode library to PHP.
 %endif
 
@@ -945,7 +924,7 @@ Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 BuildRequires: libicu-devel >= 4.0
 
 %description intl
-The php-intl package contains a dynamic shared object that will add
+The %{?scl_prefix}php-intl package contains a dynamic shared object that will add
 support for using the ICU library to PHP.
 
 %if %{with_enchant}
@@ -958,7 +937,7 @@ Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 BuildRequires: enchant-devel >= 1.2.4
 
 %description enchant
-The php-enchant package contains a dynamic shared object that will add
+The %{?scl_prefix}php-enchant package contains a dynamic shared object that will add
 support for using the enchant library to PHP.
 %endif
 
@@ -971,14 +950,14 @@ Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-zip = %{version}-%{release}, %{?scl_prefix}php-zip%{?_isa} = %{version}-%{release}
 
 %description zip
-The php-zip package delivers a module which will allow PHP scripts
+The %{?scl_prefix}php-zip package delivers a module which will allow PHP scripts
 to transparently read or write ZIP compressed archives and the files
 inside them.
 %endif
 
 
 %prep
-: Building %{name}-%{version}-%{release} with systemd=%{with_systemd} interbase=%{with_interbase} mcrypt=%{with_mcrypt} mssql=%{with_mssql} sqlite3=%{with_sqlite3} tidy=%{with_tidy} zip=%{with_zip}
+: Building %{name}-%{version}-%{release} with libvpx=%{with_libvpx} systemd=%{with_systemd} interbase=%{with_interbase} mcrypt=%{with_mcrypt} mssql=%{with_mssql} sqlite3=%{with_sqlite3} tidy=%{with_tidy} zip=%{with_zip}
 
 %setup -q -n php-%{version}%{?rcver}
 
@@ -993,10 +972,6 @@ inside them.
 cp Zend/LICENSE Zend/ZEND_LICENSE
 cp TSRM/LICENSE TSRM_LICENSE
 cp ext/ereg/regex/COPYRIGHT regex_COPYRIGHT
-%if ! %{with_libgd}
-cp ext/gd/libgd/README libgd_README
-cp ext/gd/libgd/COPYING libgd_COPYING
-%endif
 cp sapi/fpm/LICENSE fpm_LICENSE
 cp ext/mbstring/libmbfl/LICENSE libmbfl_LICENSE
 cp ext/mbstring/oniguruma/COPYING oniguruma_COPYING
@@ -1150,13 +1125,10 @@ ln -sf ../configure
     --with-freetype-dir=%{_root_prefix} \
     --with-png-dir=%{_root_prefix} \
     --with-xpm-dir=%{_root_prefix} \
-%if %{with_vpx}
+%if %{with_libvpx}
     --with-vpx-dir=%{_root_prefix} \
 %endif
     --enable-gd-native-ttf \
-%if %{with_t1lib}
-    --with-t1lib=%{_root_prefix} \
-%endif
     --without-gdbm \
     --with-gettext \
     --with-gmp \
@@ -1175,6 +1147,7 @@ ln -sf ../configure
     --enable-shmop \
     --enable-calendar \
     --with-libxml-dir=%{_root_prefix} \
+    --enable-xml \
     --with-system-tzdata \
     --with-mhash \
 %if %{with_dtrace}
@@ -1200,11 +1173,10 @@ build --libdir=%{_libdir}/php \
       --with-imap-ssl \
       --enable-mbstring=shared \
       --enable-mbregex \
-%if %{with_libgd}
-      --with-gd=shared,%{_root_prefix} \
-%else
-      --with-gd=shared \
+%if %{with_t1lib}
+      --with-t1lib=/usr \
 %endif
+      --with-gd=shared \
       --with-gmp=shared \
       --enable-calendar=shared \
       --enable-bcmath=shared \
@@ -1814,10 +1786,6 @@ fi
 %doc ucgendat_LICENSE
 %files gd -f files.gd
 %defattr(-,root,root,-)
-%if ! %{with_libgd}
-%doc libgd_README
-%doc libgd_COPYING
-%endif
 %files soap -f files.soap
 %files bcmath -f files.bcmath
 %defattr(-,root,root,-)
@@ -1856,6 +1824,10 @@ fi
 
 
 %changelog
+* Thu Apr 07 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.6.20-2
+- Now uses bundled gd (ZC-1564)
+- Updated descriptions to use scl_prefix macros (like php7)
+
 * Fri Apr 01 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.20-1
 - Updated to version 5.6.20 via update_pkg.pl (EA-4416)
 
