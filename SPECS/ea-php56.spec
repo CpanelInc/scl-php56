@@ -151,7 +151,7 @@ Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.22
-Release:  2%{?dist}
+Release:  3%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -186,7 +186,7 @@ Patch43: php-5.4.0-phpize.centos.patch
 # cPanel patches
 Patch100: php-5.5.x-mail-header.cpanel.patch
 Patch101: php-5.x-disable-zts.patch
-
+Patch102: php-5.6.x-ea4-ini.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -980,7 +980,7 @@ inside them.
 %patch43 -p1 -b .phpize
 %patch100 -p1 -b .cpanelmailheader
 %patch101 -p1 -b .disablezts
-
+%patch102 -p1 -b .cpanelea4ini
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -1850,8 +1850,11 @@ fi
 
 
 %changelog
+* Mon Jun 13 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.22-3
+- Added EasyApache 3 backwards compatibility php.ini patch (EA-4665)
+
 * Tue May 31 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.22-2
-* Enabled PHP-Litespeed package
+- Enabled PHP-Litespeed package
 
 * Fri May 27 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.22-1
 - Updated to version 5.6.22 via update_pkg.pl (EA-4637)
