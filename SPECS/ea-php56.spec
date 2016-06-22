@@ -151,7 +151,7 @@ Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.22
-Release:  3%{?dist}
+Release:  4%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -232,7 +232,6 @@ Provides: %{?scl_prefix}mod_php = %{version}-%{release}
 Provides: ea-mod_php = %{embed_version}
 Conflicts: ea-mod_php > %{embed_version}, ea-mod_php < %{embed_version}
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
-# To ensure correct /var/lib/php/session ownership:
 Requires(pre): ea-webserver
 Requires: ea-apache24-mpm = forked
 %endif
@@ -1420,9 +1419,7 @@ ln -s %{_httpd_moddir}/libphp5.so      $RPM_BUILD_ROOT%{_root_httpd_moddir}/libp
 %endif
 
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php.d
-install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php
-install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php/session
-install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php/wsdlcache
+install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/lib
 
 %if %{with_lsws}
 install -m 755 build-apache/sapi/litespeed/php $RPM_BUILD_ROOT%{_bindir}/lsphp
@@ -1703,8 +1700,6 @@ fi
 #%dir %{_libdir}/apache2/modules
 %{_root_httpd_moddir}/libphp5.so
 %endif
-%attr(0770,root,apache) %dir %{_localstatedir}/lib/php/session
-%attr(0770,root,apache) %dir %{_localstatedir}/lib/php/wsdlcache
 %{_httpd_contentdir}/icons/%{name}.gif
 %endif
 
@@ -1719,7 +1714,7 @@ fi
 %dir %{_sysconfdir}/php.d
 %dir %{_libdir}/php
 %dir %{_libdir}/php/modules
-%dir %{_localstatedir}/lib/php
+%dir %{_localstatedir}/lib
 %dir %{_datadir}/php
 
 %files cli
@@ -1850,6 +1845,9 @@ fi
 
 
 %changelog
+* Tue Jun 14 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.6.22-4
+- Removed unused global wsdl and session cache directories (EA-4690)
+
 * Mon Jun 13 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.22-3
 - Added EasyApache 3 backwards compatibility php.ini patch (EA-4665)
 
