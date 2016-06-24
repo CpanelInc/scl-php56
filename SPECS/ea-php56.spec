@@ -151,7 +151,9 @@ Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.22
-Release:  4%{?dist}
+# Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
+%define release_prefix 5 
+Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1845,6 +1847,9 @@ fi
 
 
 %changelog
+* Mon Jun 20 2016 Dan Muey <dan@cpanel.net> - 5.6.22-5
+- EA-4383: Update Release value to OBS-proof versioning
+
 * Tue Jun 14 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.6.22-4
 - Removed unused global wsdl and session cache directories (EA-4690)
 
