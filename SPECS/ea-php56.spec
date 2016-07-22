@@ -150,9 +150,9 @@
 Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
-Version:  5.6.23
+Version:  5.6.24
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 2 
+%define release_prefix 1 
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1851,6 +1851,9 @@ fi
 
 
 %changelog
+* Thu Jul 21 2016 Edwin Buck <e.buck@cpanel.net> - 5.6.24-1
+- Update PHP 5.6 to release 5.6.24 (EA-4815)
+
 * Wed Jun 29 2016 Matt Dees <matt@cpanel.net> - 5.6.23-2
 - Disallow php-fpm from loading .user.ini files outside the user's homedirectory
 
