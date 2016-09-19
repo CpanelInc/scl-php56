@@ -150,9 +150,9 @@
 Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
-Version:  5.6.25
+Version:  5.6.26
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 3
+%define release_prefix 1
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1853,6 +1853,9 @@ fi
 
 
 %changelog
+* Mon Sep 19 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.26-1
+- Updated to version 5.6.26 via update_pkg.pl (EA-5252)
+
 * Tue Sep 13 2016 Matt Dees <matt@cpanel.net> - 5.6.25-3
 - Force users on jailshell and noshell to be chrooted when using php-fpm
 
