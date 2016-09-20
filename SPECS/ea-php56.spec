@@ -150,9 +150,9 @@
 Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
-Version:  5.6.25
+Version:  5.6.26
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 1 
+%define release_prefix 1
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -191,6 +191,7 @@ Patch101: php-5.x-disable-zts.patch
 Patch102: php-5.6.x-ea4-ini.patch
 
 Patch104: php-5.6.23-fpm-user-ini-docroot.patch
+Patch105: php-5.6.x-fpm-jailshell.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -986,6 +987,7 @@ inside them.
 %patch102 -p1 -b .cpanelea4ini
 
 %patch104 -p1 -b .fpmuserini
+%patch105 -p1 -b .fpmjailshell
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -1756,7 +1758,7 @@ fi
 %{_root_initddir}/%{?scl_prefix}php-fpm
 %endif
 %{_sbindir}/php-fpm
-%dir %{_sysconfdir}/php-fpm.d
+%attr(0710,root,root) %dir %{_sysconfdir}/php-fpm.d
 # log owned by apache for log
 %attr(770,apache,root) %dir %{_localstatedir}/log/php-fpm
 %dir %{_localstatedir}/run/php-fpm
@@ -1851,6 +1853,15 @@ fi
 
 
 %changelog
+* Mon Sep 19 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.26-1
+- Updated to version 5.6.26 via update_pkg.pl (EA-5252)
+
+* Tue Sep 13 2016 Matt Dees <matt@cpanel.net> - 5.6.25-3
+- Force users on jailshell and noshell to be chrooted when using php-fpm
+
+* Thu Sep 01 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.6.25-2
+- Changed php-fpm.d directory to 0710 (EA-5097)
+
 * Fri Aug 19 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.25-1
 - Updated to version 5.6.25 via update_pkg.pl (EA-5081)
 
