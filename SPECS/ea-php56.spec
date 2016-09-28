@@ -152,7 +152,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.26
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 1
+%define release_prefix 2
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1853,6 +1853,9 @@ fi
 
 
 %changelog
+* Wed Sep 28 2016 Jacob Perkins <jacob.perkins@cpanel.net> 5.6.26-2
+- Set register_argc_argv default on to match EasyApache 3
+
 * Mon Sep 19 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.26-1
 - Updated to version 5.6.26 via update_pkg.pl (EA-5252)
 
