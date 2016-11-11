@@ -150,9 +150,9 @@
 Summary:  PHP scripting language for creating dynamic web sites
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
-Version:  5.6.27
+Version:  5.6.28
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 2
+%define release_prefix 1
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1855,6 +1855,9 @@ fi
 
 
 %changelog
+* Thu Nov 10 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.28-1
+- Updated to version 5.6.28 via update_pkg.pl (EA-5641)
+
 * Tue Oct 18 2016 Julian Brown <julian.brown@cpanel.net> 5.6.27-2
 - Add patch for on demand forking bug
 
