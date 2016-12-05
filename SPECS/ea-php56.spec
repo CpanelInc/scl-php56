@@ -152,7 +152,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.28
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 4
+%define release_prefix 5
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -192,7 +192,6 @@ Patch102: php-5.6.x-ea4-ini.patch
 
 Patch104: php-5.6.23-fpm-user-ini-docroot.patch
 Patch105: php-5.6.x-fpm-jailshell.patch
-Patch106: php-5.6.26.ondemand_fork.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -991,7 +990,6 @@ inside them.
 
 %patch104 -p1 -b .fpmuserini
 %patch105 -p1 -b .fpmjailshell
-%patch106 -p1 -b .fpmondemandfork
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -1856,6 +1854,9 @@ fi
 
 
 %changelog
+* Thu Dec 01 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.6.28-5
+- Remove fpm ondemand patch (EA-5714)
+
 * Fri Nov 18 2016 Matt Dees <matt.dees@cpanel.net> 5.6.28-4
 - Fix erronous getpwnam message in php-fpm jailshell code
 
