@@ -102,7 +102,7 @@ index f0d4573..7d06aaa 100644
 +		   zlog(ZLOG_DEBUG, "[pool %s] chroot does not match virtfs: %s", wp->config->name, wp->config->chroot);
 +		}
 +	}
-+	else {
++	else if (pwd == NULL) {
 +		// This condition should never be hit due to earlier checks, but adding it for safety's sake
 +		zlog(ZLOG_SYSERROR, "[pool %s] Unable to perform getpwnam on user: %s", wp->config->name, wp->config->user);
 +	}

@@ -152,7 +152,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.28
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 1
+%define release_prefix 5
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -192,7 +192,6 @@ Patch102: php-5.6.x-ea4-ini.patch
 
 Patch104: php-5.6.23-fpm-user-ini-docroot.patch
 Patch105: php-5.6.x-fpm-jailshell.patch
-Patch106: php-5.6.26.ondemand_fork.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -277,6 +276,8 @@ Provides: %{?scl_prefix}php-readline = %{version}-%{release}, %{?scl_prefix}php-
 
 # For the ea-php-cli wrapper rpm
 Requires: ea-php-cli
+Requires: ea-php-cli-lsphp
+Requires: %{?scl_prefix}php-litespeed = %{version}-%{release}
 
 %description cli
 The %{?scl_prefix}php-cli package contains the command-line interface
@@ -989,7 +990,6 @@ inside them.
 
 %patch104 -p1 -b .fpmuserini
 %patch105 -p1 -b .fpmjailshell
-%patch106 -p1 -b .fpmondemandfork
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -1154,7 +1154,6 @@ ln -sf ../configure
     --enable-gd-native-ttf \
     --without-gdbm \
     --with-gettext \
-    --with-gmp \
     --with-iconv \
     --with-jpeg-dir=%{_root_prefix} \
     --with-openssl \
@@ -1168,7 +1167,6 @@ ln -sf ../configure
     --enable-sockets \
     --with-kerberos \
     --enable-shmop \
-    --enable-calendar \
     --with-libxml-dir=%{_root_prefix} \
     --enable-xml \
     --with-system-tzdata \
@@ -1293,7 +1291,8 @@ without_shared="--without-gd \
       --disable-simplexml --disable-exif --without-gettext \
       --without-iconv --disable-ftp --without-bz2 --disable-ctype \
       --disable-shmop --disable-sockets --disable-tokenizer \
-      --disable-sysvmsg --disable-sysvshm --disable-sysvsem"
+      --disable-sysvmsg --disable-sysvshm --disable-sysvsem \
+      --without-gmp --disable-calendar"
 
 %if %{with_httpd}
 # Build Apache module, and the CLI SAPI, /usr/bin/php
@@ -1855,6 +1854,19 @@ fi
 
 
 %changelog
+* Thu Dec 01 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.6.28-5
+- Remove fpm ondemand patch (EA-5714)
+
+* Fri Nov 18 2016 Matt Dees <matt.dees@cpanel.net> 5.6.28-4
+- Fix erronous getpwnam message in php-fpm jailshell code
+
+* Fri Nov 18 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.6.28-3
+- Ensure the same extensions are compiled statically across all
+  SAPI types (EA-5587)
+
+* Thu Nov 17 2016 Edwin Buck <e.buck@cpanel.net> - 5.6.28-2
+- Make php-cli require php-litespeed
+
 * Thu Nov 10 2016 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.28-1
 - Updated to version 5.6.28 via update_pkg.pl (EA-5641)
 
