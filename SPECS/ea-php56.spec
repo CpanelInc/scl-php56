@@ -152,7 +152,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.30
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 1
+%define release_prefix 2
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1844,6 +1844,9 @@ fi
 
 
 %changelog
+* Thu Jan 26 2017 Dan Muey <dan@cpanel.net> - 5.6.30-2
+- EA-5839: Add opcache.validate_permission to opcache ini
+
 * Fri Jan 20 2017 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.30-1
 - Updated to version 5.6.30 via update_pkg.pl (EA-5881)
 
