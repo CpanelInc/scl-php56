@@ -80,6 +80,7 @@
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 6
 %global with_tidy      1
+%global libtidy_prefix /opt/cpanel/libtidy
 %else
 %global with_tidy      0
 %endif
@@ -869,7 +870,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
-BuildRequires: libtidy-devel
+BuildRequires: %{ns_name}-libtidy-devel
 
 %description tidy
 The %{?scl_prefix}php-tidy package contains a dynamic shared object that will add
@@ -1259,7 +1260,7 @@ build --libdir=%{_libdir}/php \
       --with-mcrypt=shared,%{mcrypt_prefix} \
 %endif
 %if %{with_tidy}
-      --with-tidy=shared,%{_root_prefix} \
+      --with-tidy=shared,%{libtidy_prefix} \
 %endif
 %if %{with_mssql}
       --with-mssql=shared,%{_root_prefix} \
@@ -1844,7 +1845,7 @@ fi
 
 
 %changelog
-* Thu Feb 03 2017 Dan Muey <dan@cpanel.net> - 5.6.30-3
+* Fri Feb 03 2017 Dan Muey <dan@cpanel.net> - 5.6.30-3
 - EA-5839: Add opcache.validate_permission to opcache ini
 
 * Mon Jan 30 2017 Dan Muey <dan@cpanel.net> - 5.6.30-2
