@@ -153,7 +153,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.30
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 3
+%define release_prefix 4
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -870,6 +870,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{ns_name}-libtidy
 BuildRequires: %{ns_name}-libtidy-devel
 
 %description tidy
@@ -1845,6 +1846,9 @@ fi
 
 
 %changelog
+* Mon Feb 06 2017 Dan Muey <dan@cpanel.net> - 5.6.30-4
+- EA-5946: force requirement of ea-libtidy instead of .so from BuildRequires ea-libtidy-devel
+
 * Fri Feb 03 2017 Dan Muey <dan@cpanel.net> - 5.6.30-3
 - EA-5839: Add opcache.validate_permission to opcache ini
 
