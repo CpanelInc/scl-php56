@@ -1849,8 +1849,8 @@ fi
 
 
 %changelog
-+* Wed Mar 08 2017 Cory McIntire <cory@cpanel.net> - 5.6.30-5
-+- EA-2422: Have PHPs use our ea-libcurl
+* Wed Mar 08 2017 Cory McIntire <cory@cpanel.net> - 5.6.30-5
+- EA-2422: Have PHPs use our ea-libcurl
 
 * Mon Feb 06 2017 Dan Muey <dan@cpanel.net> - 5.6.30-4
 - EA-5946: force requirement of ea-libtidy instead of .so from BuildRequires ea-libtidy-devel
