@@ -155,7 +155,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.30
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 7
+%define release_prefix 8
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1851,6 +1851,9 @@ fi
 
 
 %changelog
+* Fri Apr 21 2017 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.30-8
+- EA-6203: Correct OpCache blacklist directory
+
 * Tue Mar 28 2017 Dan Muey <dan@cpanel.net> - 5.6.30-7
 - EA-6031: Enable mssql option and use our ea-freetds instead of freetds
 
