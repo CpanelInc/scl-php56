@@ -151,7 +151,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.30
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 11
+%define release_prefix 12
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1378,10 +1378,10 @@ unset NO_INTERACTION REPORT_EXIT_STATUS MALLOC_CHECK_
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 
 # Make the eaphp## symlinks
-install -d $RPM_BUILD_ROOT/usr/bin
-ln -sf /opt/cpanel/ea-php56/root/usr/bin/php $RPM_BUILD_ROOT/usr/bin/ea-php56
 install -d $RPM_BUILD_ROOT/usr/local/bin
-ln -sf /opt/cpanel/ea-php56/root/usr/bin/php-cgi $RPM_BUILD_ROOT/usr/local/bin/ea-php56
+ln -sf /opt/cpanel/ea-php56/root/usr/bin/php $RPM_BUILD_ROOT/usr/local/bin/ea-php56
+install -d $RPM_BUILD_ROOT/usr/bin
+ln -sf /opt/cpanel/ea-php56/root/usr/bin/php-cgi $RPM_BUILD_ROOT/usr/bin/ea-php56
 
 %if %{with_embed}
 # Install the version for embedded script language in applications + php_embed.h
@@ -1856,6 +1856,9 @@ fi
 
 
 %changelog
+* Tue May 18 2017 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.30-12
+- EA-6282: Swapped ea-php## symlinks to match EasyApache 3 compatibility
+
 * Tue May 09 2017 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.30-11
 - Switch libxml2 to cPanel distributed packages
 
