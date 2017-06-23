@@ -151,7 +151,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.30
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 13
+%define release_prefix 14
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -427,7 +427,7 @@ Group: Development/Languages
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 Requires: %{ns_name}-libcurl
-BuildRequires: libssh2 libssh2-devel libidn libidn-devel
+BuildRequires: libssh2 libssh2-devel libidn libidn-devel ea-libnghttp2-devel
 Provides: %{?scl_prefix}php-curl = %{version}-%{release}, %{?scl_prefix}php-curl%{?_isa} = %{version}-%{release}
 
 %description curl
@@ -1856,6 +1856,9 @@ fi
 
 
 %changelog
+* Thu Jun 22 2017 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.30-14
+- EA-6232: Build -curl with HTTP/2 support
+
 * Wed May 17 2017 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.30-13
 - EA-6292: Switch libxml2 to OS provided libraries
 
