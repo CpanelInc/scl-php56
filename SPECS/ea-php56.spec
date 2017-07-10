@@ -152,9 +152,9 @@ Summary:  PHP DSO
 %endif
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
-Version:  5.6.30
+Version:  5.6.31
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 15
+%define release_prefix 1
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1858,6 +1858,9 @@ fi
 
 
 %changelog
+* Thu Jul 06 2017 Cory McIntire <cory@cpanel.net> - 5.6.31-1
+- Updated to version 5.6.31 via update_pkg.pl (EA-6514)
+
 * Wed Jun 28 2017 Dan Muey <dan@cpanel.net> - 5.6.30-15
 - EA-6484: Clarify Summary and Description for DSO
 
