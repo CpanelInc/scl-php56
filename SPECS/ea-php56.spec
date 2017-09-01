@@ -154,7 +154,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.31
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 2
+%define release_prefix 3
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1858,6 +1858,9 @@ fi
 
 
 %changelog
+* Wed Aug 16 2017 Dan Muey <dan@cpanel.net> - 5.6.31-3
+- EA-4197: make php.ini directives consistent w/ other versions
+
 * Tue Jul 25 2017 Dan Muey <dan@cpanel.net> - 5.6.31-2
 - EA-6574: Make permissions on FPM socket dir more secure
 
