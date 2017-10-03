@@ -188,7 +188,7 @@ Patch42: php-5.6.13-systzdata-v12b.patch.centos.patch
 Patch43: php-5.4.0-phpize.centos.patch
 
 # cPanel patches
-Patch100: php-5.5.x-mail-header.cpanel.patch
+Patch100: php-5.6.x-mail-header.cpanel.patch
 Patch101: php-5.x-disable-zts.patch
 Patch102: php-5.6.x-ea4-ini.patch
 
@@ -1859,7 +1859,7 @@ fi
 
 
 %changelog
-* Tue Oct 14 2017 <cory@cpanel.net> - 5.6.31-4
+* Tue Oct 14 2017 <cory@cpanel.net> - 5.6.31-6
 - EA-4653: Update mail header patch for PHP 5.6
 
 * Fri Oct 13 2017 Tim Mullin <tim@cpanel.net> - 5.6.31-5
