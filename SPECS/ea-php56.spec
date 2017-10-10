@@ -154,7 +154,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.31
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 3
+%define release_prefix 4
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -994,6 +994,7 @@ inside them.
 
 %patch104 -p1 -b .fpmuserini
 %patch105 -p1 -b .fpmjailshell
+sed -i 's/buffio.h/tidybuffio.h/' ext/tidy/*.c
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -1858,6 +1859,9 @@ fi
 
 
 %changelog
+* Tue Sep 26 2017 Dan Muey <dan@cpanel.net> - 5.6.31-4
+- EA-6819: Patch to support libtidy 5.4.0
+
 * Wed Aug 16 2017 Dan Muey <dan@cpanel.net> - 5.6.31-3
 - EA-4197: make php.ini directives consistent w/ other versions
 
