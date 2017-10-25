@@ -1,0 +1,104 @@
+From be302d31a4b37eadeeb6a1386027931af776bfa1 Mon Sep 17 00:00:00 2001
+From: Giam Teck Choon <giamteckchoon@gmail.com>
+Date: Tue, 15 Mar 2016 11:24:26 +0800
+Subject: [PATCH] PHP mail() header patch
+
+This is a patch to add an informational header to messages sent from PHP via
+the mail() function. This can help to track which script on a server was used
+to send a message, and which client caused it to be sent.
+
+The header added has the form:
+
+    X-PHP-Script: <servername><php-self> for <remote-addr>
+
+For example:
+
+    X-PHP-Script: www.example.com/~user/testapp/send-mail.php for 10.0.0.1
+
+If the connection appears to have come via a proxy cache (i.e. has an
+"X-Forwarded-For" header), is a list of addresses (the addresses in
+X-Forwarded-For, then the 'real' remote address).
+
+This patch is a modified version of Steve Bennett's patch which can be
+read at http://www.lancs.ac.uk/~steveb/patches/php-mail-header-patch/
+since his patch only available for version 4.3.4 during the time I checked
+and also won't be working for mail function example 1 as listed at
+http://www.php.net/manual/en/function.mail.php
+
+Special thanks to:
+
+(1) Steve Bennett for his patch
+(2) Stefan Esser from hardened-php.net to report a security issue regarding
+    PHP_SELF in headers (http://www.hardened-php.net/advisory_142006.139.html)
+(3) Alexey Koscheev from koscheev.ru regarding using zend_is_auto_global
+    to properly access $_SERVER (24 Jan 2015)
+    Reference: http://grokbase.com/t/php/php-internals/033hwqce0z/server-registration-issue
+(4) Alexey Koscheev from koscheev.ru regarding protecting variables from changing by user
+    (14 Mar 2016)
+
+Signed-off-by: Giam Teck Choon <giamteckchoon@gmail.com>
+---
+ ext/standard/mail.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+
+diff --git a/ext/standard/mail.c b/ext/standard/mail.c
+index 8da0872..763668d 100644
+--- a/ext/standard/mail.c
++++ b/ext/standard/mail.c
+@@ -334,6 +334,42 @@ PHPAPI int php_mail(char *to, char *subject, char *message, char *headers, char
+ 		MAIL_RET(0);
+ 	}
+ 
++	char *headers2=NULL;
++	/* hint php that we are going to use global variable _SERVER */
++	zend_is_auto_global("_SERVER", sizeof("_SERVER") - 1 TSRMLS_CC);
++
++	if (PG(http_globals)[TRACK_VARS_SERVER]) {
++		while(1) {
++			zval **remote_addr, **forwarded_for, **php_self, **server_name;
++			if (!(zend_hash_find(PG(http_globals)[TRACK_VARS_SERVER]->value.ht, "REMOTE_ADDR", sizeof("REMOTE_ADDR"), (void **) &remote_addr) == SUCCESS && Z_TYPE_PP(remote_addr) == IS_STRING))
++				break;
++			if (!(zend_hash_find(PG(http_globals)[TRACK_VARS_SERVER]->value.ht, "HTTP_X_FORWARDED_FOR", sizeof("HTTP_X_FORWARDED_FOR"), (void **) &forwarded_for) == SUCCESS && Z_TYPE_PP(forwarded_for) == IS_STRING))
++				forwarded_for = NULL;
++			if (!(zend_hash_find(PG(http_globals)[TRACK_VARS_SERVER]->value.ht, "PHP_SELF", sizeof("PHP_SELF"), (void **) &php_self) == SUCCESS && Z_TYPE_PP(php_self) == IS_STRING))
++				break;
++			if (!(zend_hash_find(PG(http_globals)[TRACK_VARS_SERVER]->value.ht, "SERVER_NAME", sizeof("SERVER_NAME"), (void **) &server_name) == SUCCESS && Z_TYPE_PP(server_name) == IS_STRING))
++				break;
++			headers2 = emalloc(32+Z_STRLEN_PP(server_name)+Z_STRLEN_PP(php_self)
++				+(forwarded_for?Z_STRLEN_PP(forwarded_for)+2:0)
++				+Z_STRLEN_PP(remote_addr));
++			strcpy(headers2, "X-PHP-Script: ");
++			strcat(headers2, Z_STRVAL_PP(server_name));
++			if (strchr(Z_STRVAL_PP(php_self), '\n') != NULL || strchr(Z_STRVAL_PP(php_self), '\r') != NULL) {
++				php_error_docref(NULL TSRMLS_CC, E_WARNING, "Newline found in PHP_SELF variable which might cause possible injection '%s'", Z_STRVAL_PP(php_self));
++			}
++			else {
++				strcat(headers2, Z_STRVAL_PP(php_self));
++			}
++			strcat(headers2, " for ");
++			if (forwarded_for) {
++				strcat(headers2, Z_STRVAL_PP(forwarded_for));
++				strcat(headers2, ", ");
++			}
++			strcat(headers2, Z_STRVAL_PP(remote_addr));
++			break;
++		}
++	}
++
+ 	if (!sendmail_path) {
+ #if (defined PHP_WIN32 || defined NETWARE)
+ 		/* handle old style win smtp sending */
+@@ -397,6 +433,10 @@ PHPAPI int php_mail(char *to, char *subject, char *message, char *headers, char
+ #endif
+ 		fprintf(sendmail, "To: %s\n", to);
+ 		fprintf(sendmail, "Subject: %s\n", subject);
++		if (headers2 != NULL) {
++			fprintf(sendmail, "%s\n", headers2);
++			efree(headers2);
++		}
+ 		if (hdr != NULL) {
+ 			fprintf(sendmail, "%s\n", hdr);
+ 		}
+-- 
+1.8.3.1
+
