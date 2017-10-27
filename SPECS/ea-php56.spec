@@ -152,9 +152,9 @@ Summary:  PHP DSO
 %endif
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
-Version:  5.6.31
+Version:  5.6.32
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 6
+%define release_prefix 1
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1859,6 +1859,9 @@ fi
 
 
 %changelog
+* Fri Oct 27 2017 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.32-1
+- Updated to version 5.6.32 via update_pkg.pl (EA-6931)
+
 * Tue Oct 14 2017 <cory@cpanel.net> - 5.6.31-6
 - EA-4653: Update mail header patch for PHP 5.6
 
