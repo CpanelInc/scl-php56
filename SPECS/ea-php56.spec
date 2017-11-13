@@ -154,7 +154,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.32
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 1
+%define release_prefix 2
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -199,7 +199,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: bzip2-devel, %{ns_name}-libcurl, %{ns_name}-libcurl-devel, %{db_devel}
 BuildRequires: pam-devel
-BuildRequires: libstdc++-devel, openssl-devel, scl-utils-build
+BuildRequires: libstdc++-devel,ea-openssl,  ea-openssl-devel, scl-utils-build
 %if %{with_sqlite3}
 # For SQLite3 extension
 BuildRequires: sqlite-devel >= 3.6.0
@@ -526,7 +526,7 @@ License: PHP
 Provides: %{?scl_prefix}php-imap%{?_isa} = %{version}-%{release}
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
 Requires: %{?scl_prefix}libc-client%{?_isa}
-BuildRequires: krb5-devel%{?_isa}, openssl-devel%{?_isa}
+BuildRequires: krb5-devel%{?_isa},ea-openssl,  ea-openssl-devel%{?_isa}
 BuildRequires: %{?scl_prefix}libc-client-devel%{?_isa}
 Conflicts: %{?scl_prefix}php-recode = %{version}-%{release}
 
@@ -541,7 +541,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
-BuildRequires: cyrus-sasl-devel, openldap-devel, openssl-devel
+BuildRequires: cyrus-sasl-devel, openldap-devel,ea-openssl,  ea-openssl-devel
 
 %description ldap
 The %{?scl_prefix}php-ldap package adds Lightweight Directory Access Protocol (LDAP)
@@ -636,7 +636,7 @@ License: PHP
 Requires: %{?scl_prefix}php-pdo%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php_database = %{version}-%{release}
 Provides: %{?scl_prefix}php-pdo_pgsql = %{version}-%{release}, %{?scl_prefix}php-pdo_pgsql%{?_isa} = %{version}-%{release}
-BuildRequires: krb5-devel, openssl-devel, postgresql-devel
+BuildRequires: krb5-devel,ea-openssl,  ea-openssl-devel, postgresql-devel
 
 %description pgsql
 The %{?scl_prefix}php-pgsql package add PostgreSQL database support to PHP.
@@ -1161,7 +1161,7 @@ ln -sf ../configure
     --with-gettext \
     --with-iconv \
     --with-jpeg-dir=%{_root_prefix} \
-    --with-openssl \
+    --with-openssl=/opt/cpanel/ea-openssl --with-openssl-dir=/opt/cpanel/ea-openssl \
 %if %{with_pcre}
     --with-pcre-regex=%{_root_prefix} \
 %endif
@@ -1859,6 +1859,9 @@ fi
 
 
 %changelog
+* Mon Nov 06 2017 <dan@cpanel.net> - 5.6.32-2
+- EA-6812: build PHP against ea-openssl like Apache
+
 * Fri Oct 27 2017 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.32-1
 - Updated to version 5.6.32 via update_pkg.pl (EA-6931)
 
