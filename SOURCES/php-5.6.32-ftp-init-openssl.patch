@@ -1,0 +1,20 @@
+diff --git a/ext/ftp/php_ftp.c b/ext/ftp/php_ftp.c
+index f53ce2d..0ed154c 100644
+--- a/ext/ftp/php_ftp.c
++++ b/ext/ftp/php_ftp.c
+@@ -307,6 +307,15 @@ static void ftp_destructor_ftpbuf(zend_rsrc_list_entry *rsrc TSRMLS_DC)
+ 
+ PHP_MINIT_FUNCTION(ftp)
+ {
++#ifdef HAVE_OPENSSL_EXT
++        SSL_library_init();
++        OpenSSL_add_all_ciphers();
++        OpenSSL_add_all_digests();
++        OpenSSL_add_all_algorithms();
++
++        SSL_load_error_strings();
++#endif
++
+ 	le_ftpbuf = zend_register_list_destructors_ex(ftp_destructor_ftpbuf, NULL, le_ftpbuf_name, module_number);
+ 	REGISTER_LONG_CONSTANT("FTP_ASCII",  FTPTYPE_ASCII, CONST_PERSISTENT | CONST_CS);
+ 	REGISTER_LONG_CONSTANT("FTP_TEXT",   FTPTYPE_ASCII, CONST_PERSISTENT | CONST_CS);
