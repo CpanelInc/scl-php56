@@ -1177,7 +1177,7 @@ ln -sf ../configure
     --enable-sockets \
     --with-kerberos \
     --enable-shmop \
-    --with-libxml-dir=%{_root_prefix} \
+    --with-libxml-dir=/opt/cpanel/ea-libxml2 \
     --enable-xml \
     --with-system-tzdata \
     --with-mhash \
