@@ -152,9 +152,9 @@ Summary:  PHP DSO
 %endif
 Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
-Version:  5.6.32
+Version:  5.6.33
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 3
+%define release_prefix 1
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1861,6 +1861,9 @@ fi
 
 
 %changelog
+* Fri Jan 05 2018 Cory McIntire <cory@cpanel.net> - 5.6.33-1
+- Updated to version 5.6.33 via update_pkg.pl (EA-7082)
+
 * Thu Dec 07 2017 <dan@cpanel.net> - 5.6.32-3
 - EA-7008: init openssl for FTP like 7.x does
 
