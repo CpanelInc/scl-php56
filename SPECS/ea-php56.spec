@@ -154,7 +154,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.33
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 1
+%define release_prefix 2
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -195,6 +195,8 @@ Patch102: php-5.6.x-ea4-ini.patch
 Patch104: php-5.6.23-fpm-user-ini-docroot.patch
 Patch105: php-5.6.x-fpm-jailshell.patch
 Patch106: php-5.6.32-ftp-init-openssl.patch
+
+Patch200: php-fpm.epoll.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -996,6 +998,7 @@ inside them.
 %patch104 -p1 -b .fpmuserini
 %patch105 -p1 -b .fpmjailshell
 %patch106 -p1 -b .ftpinitopenssl
+%patch200 -p1 -b .fpmepoll
 sed -i 's/buffio.h/tidybuffio.h/' ext/tidy/*.c
 
 # Prevent %%doc confusion over LICENSE files
@@ -1861,6 +1864,9 @@ fi
 
 
 %changelog
+* Tue Jan 09 2018 <julian.brown@cpanel.net> - 5.6.33-2
+- HB-3061: Fix epoll bug.
+
 * Fri Jan 05 2018 Cory McIntire <cory@cpanel.net> - 5.6.33-1
 - Updated to version 5.6.33 via update_pkg.pl (EA-7082)
 
