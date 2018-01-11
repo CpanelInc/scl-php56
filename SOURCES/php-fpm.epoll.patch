@@ -1,0 +1,26 @@
+commit c3bd39a5e1d90af8419266878aa64d3d35961868
+Author: Julian Brown <julian.brown@cpanel.net>
+Date:   Wed Jan 3 10:32:24 2018 -0600
+
+    Patch epoll.c per bug report in upstream.
+    
+    Case HB-3061-70: Patch epoll.c per bug report in upstream.
+
+diff --git a/sapi/fpm/fpm/events/epoll.c b/sapi/fpm/fpm/events/epoll.c
+index 46ebdae..c4ee3c3 100644
+--- a/sapi/fpm/fpm/events/epoll.c
++++ b/sapi/fpm/fpm/events/epoll.c
+@@ -144,7 +144,12 @@ static int fpm_event_epoll_wait(struct fpm_event_queue_s *queue, unsigned long i
+ 		}
+ 
+ 		/* fire the event */
+-		fpm_event_fire((struct fpm_event_s *)epollfds[i].data.ptr);
++        /* XXX - JIRA EA-????
++           Ignore EPOLLUP that is causing EBADF on unreadable FD's
++           https://bugs.php.net/bug.php?id=65398
++                */
++        if (epollfds[i].events != EPOLLHUP)
++            fpm_event_fire((struct fpm_event_s *)epollfds[i].data.ptr);
+ 
+ 		/* sanity check */
+ 		if (fpm_globals.parent_pid != getpid()) {
