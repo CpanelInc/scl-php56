@@ -154,7 +154,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.33
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 1
+%define release_prefix 4
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -195,6 +195,8 @@ Patch102: php-5.6.x-ea4-ini.patch
 Patch104: php-5.6.23-fpm-user-ini-docroot.patch
 Patch105: php-5.6.x-fpm-jailshell.patch
 Patch106: php-5.6.32-ftp-init-openssl.patch
+
+Patch200: php-fpm.epoll.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -689,7 +691,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
-BuildRequires: libxml2-devel
+BuildRequires: ea-libxml2-devel
 
 %description soap
 The %{?scl_prefix}php-soap package contains a dynamic shared object that will add
@@ -761,7 +763,7 @@ Provides: %{?scl_prefix}php-xmlreader = %{version}-%{release}, %{?scl_prefix}php
 Provides: %{?scl_prefix}php-xmlwriter = %{version}-%{release}, %{?scl_prefix}php-xmlwriter%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-xsl = %{version}-%{release}, %{?scl_prefix}php-xsl%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-simplexml = %{version}-%{release}, %{?scl_prefix}php-simplexml%{?_isa} = %{version}-%{release}
-BuildRequires: libxslt-devel >= 1.0.18-1, libxml2-devel >= 2.4.14-1
+BuildRequires: libxslt-devel >= 1.0.18-1, ea-libxml2-devel >= 2.4.14-1
 
 %description xml
 The %{?scl_prefix}php-xml package contains dynamic shared objects which add support
@@ -996,6 +998,7 @@ inside them.
 %patch104 -p1 -b .fpmuserini
 %patch105 -p1 -b .fpmjailshell
 %patch106 -p1 -b .ftpinitopenssl
+%patch200 -p1 -b .fpmepoll
 sed -i 's/buffio.h/tidybuffio.h/' ext/tidy/*.c
 
 # Prevent %%doc confusion over LICENSE files
@@ -1174,7 +1177,7 @@ ln -sf ../configure
     --enable-sockets \
     --with-kerberos \
     --enable-shmop \
-    --with-libxml-dir=%{_root_prefix} \
+    --with-libxml-dir=/opt/cpanel/ea-libxml2 \
     --enable-xml \
     --with-system-tzdata \
     --with-mhash \
@@ -1861,6 +1864,15 @@ fi
 
 
 %changelog
+* Fri Jan 12 2018 <darren@cpanel.net> - 5.6.33-4
+- HB-3263: Ensure securetmp is done before starting FPM
+
+* Thu Jan 11 2018 Cory McIntire <cory@cpanel.net> - 5.6.33-3
+- EA-7044: Adjust PHPs to use ea-libxml2
+
+* Tue Jan 09 2018 <julian.brown@cpanel.net> - 5.6.33-2
+- HB-3061: Fix epoll bug.
+
 * Fri Jan 05 2018 Cory McIntire <cory@cpanel.net> - 5.6.33-1
 - Updated to version 5.6.33 via update_pkg.pl (EA-7082)
 
