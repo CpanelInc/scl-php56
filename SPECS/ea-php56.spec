@@ -157,7 +157,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.35
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 1
+%define release_prefix 2
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -167,6 +167,7 @@ Group:    Development/Languages
 URL:      http://www.php.net/
 
 Source0: http://www.php.net/distributions/php-%{version}%{?rcver}.tar.bz2
+Source1: https://www.litespeedtech.com/packages/lsapi/php-litespeed-7.1.tgz
 Source2: php.ini
 Source3: macros.php
 Source4: php-fpm.conf
@@ -263,7 +264,7 @@ Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 
 %description
 %if %{with_httpd}
-Package that installs Apache's mod_php DSO module for PHP 5.6
+Package that installs Apache`s mod_php DSO module for PHP 5.6
 %else
 PHP is an HTML-embedded scripting language. PHP attempts to make it
 easy for developers to write dynamically generated web pages. PHP also
@@ -1018,6 +1019,14 @@ cp ext/mbstring/ucgendat/OPENLDAP_LICENSE ucgendat_LICENSE
 cp ext/fileinfo/libmagic/LICENSE libmagic_LICENSE
 cp ext/phar/LICENSE phar_LICENSE
 cp ext/bcmath/libbcmath/COPYING.LIB libbcmath_COPYING
+
+%if %{with_lsws}
+# Remove the bundled version of litespeed
+# and replace it with the latest version
+cd sapi
+tar -xvf %{SOURCE1} --exclude=Makefile.frag --exclude=config.m4
+cd ..
+%endif
 
 # Multiple builds for multiple SAPIs
 mkdir \
@@ -1873,6 +1882,9 @@ fi
 
 
 %changelog
+* Wed Apr 18 2018 Rishwanth Yeddula <rish@cpanel.net> - 5.6.35-2
+- ZC-3602: Update litespeed to the latest version (7.1).
+
 * Mon Apr 02 2018 Daniel Muey <dan@cpanel.net> - 5.6.35-1
 - EA-7355: Update to v5.6.35, drop v5.6.34
 
