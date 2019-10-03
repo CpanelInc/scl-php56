@@ -1950,7 +1950,7 @@ fi
 * Mon Apr 02 2018 Daniel Muey <dan@cpanel.net> - 5.6.35-1
 - EA-7355: Update to v5.6.35, drop v5.6.34
 
-* Mon Mar 20 2018 Cory McIntire <cory@cpanel.net> - 5.6.34-3
+* Tue Mar 20 2018 Cory McIntire <cory@cpanel.net> - 5.6.34-3
 - ZC-3552: Added versioning to ea-openssl and ea-libcurl requirements.
 
 * Tue Mar 06 2018 Daniel Muey <dan@cpanel.net> - 5.6.34-2
@@ -1986,7 +1986,7 @@ fi
 * Fri Oct 27 2017 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.32-1
 - Updated to version 5.6.32 via update_pkg.pl (EA-6931)
 
-* Tue Oct 14 2017 <cory@cpanel.net> - 5.6.31-6
+* Sat Oct 14 2017 <cory@cpanel.net> - 5.6.31-6
 - EA-4653: Update mail header patch for PHP 5.6
 
 * Fri Oct 13 2017 Tim Mullin <tim@cpanel.net> - 5.6.31-5
@@ -2134,7 +2134,7 @@ fi
   not itself.  this lets the user reinstall the package without
   conflict. (ZC-1459)
 
-* Fri Feb 08 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.6.18-2
+* Mon Feb 08 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.6.18-2
 - Added imap extension for all CentOS versions.  It now depends on
   our internal SCL libc-client package.
 
