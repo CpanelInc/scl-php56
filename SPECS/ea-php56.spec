@@ -157,7 +157,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.40
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 9
+%define release_prefix 11
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -167,7 +167,7 @@ Group:    Development/Languages
 URL:      http://www.php.net/
 
 Source0: http://www.php.net/distributions/php-%{version}%{?rcver}.tar.bz2
-Source1: https://www.litespeedtech.com/packages/lsapi/php-litespeed-7.5.tgz
+Source1: https://www.litespeedtech.com/packages/lsapi/php-litespeed-7.6.tgz
 Source2: php.ini
 Source3: macros.php
 Source4: php-fpm.conf
@@ -1890,6 +1890,12 @@ fi
 
 
 %changelog
+* Fri Nov 22 2019 Tim Mullin <tim@cpanel.net> - 5.6.40-11
+- EA-8762: Update litespeed from upstream to 7.6
+
+* Thu Oct 03 2019 Daniel Muey <dan@cpanel.net> - 5.6.40-10
+- ZC-4361: Fix bogus changelog dates
+
 * Thu Sep 12 2019 Tim Mullin <tim@cpanel.net> - 5.6.40-9
 - EA-8549: Build php-fpm with pcntl
 
@@ -1947,7 +1953,7 @@ fi
 * Mon Apr 02 2018 Daniel Muey <dan@cpanel.net> - 5.6.35-1
 - EA-7355: Update to v5.6.35, drop v5.6.34
 
-* Mon Mar 20 2018 Cory McIntire <cory@cpanel.net> - 5.6.34-3
+* Tue Mar 20 2018 Cory McIntire <cory@cpanel.net> - 5.6.34-3
 - ZC-3552: Added versioning to ea-openssl and ea-libcurl requirements.
 
 * Tue Mar 06 2018 Daniel Muey <dan@cpanel.net> - 5.6.34-2
@@ -1983,7 +1989,7 @@ fi
 * Fri Oct 27 2017 Jacob Perkins <jacob.perkins@cpanel.net> - 5.6.32-1
 - Updated to version 5.6.32 via update_pkg.pl (EA-6931)
 
-* Tue Oct 14 2017 <cory@cpanel.net> - 5.6.31-6
+* Sat Oct 14 2017 <cory@cpanel.net> - 5.6.31-6
 - EA-4653: Update mail header patch for PHP 5.6
 
 * Fri Oct 13 2017 Tim Mullin <tim@cpanel.net> - 5.6.31-5
@@ -2131,7 +2137,7 @@ fi
   not itself.  this lets the user reinstall the package without
   conflict. (ZC-1459)
 
-* Fri Feb 08 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.6.18-2
+* Mon Feb 08 2016 S. Kurt Newman <kurt.newman@cpanel.net> - 5.6.18-2
 - Added imap extension for all CentOS versions.  It now depends on
   our internal SCL libc-client package.
 
