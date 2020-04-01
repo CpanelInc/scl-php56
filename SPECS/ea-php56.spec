@@ -157,7 +157,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.40
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 11
+%define release_prefix 13
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -398,6 +398,7 @@ Summary:   The Zend OPcache
 Group:     Development/Languages
 License:   PHP
 Requires:  %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Provides:  %{?scl_prefix}php-pecl-zendopcache = %{opcachever}
 Provides:  %{?scl_prefix}php-pecl-zendopcache%{?_isa} = %{opcachever}
 Provides:  %{?scl_prefix}php-pecl(opcache) = %{opcachever}
@@ -415,6 +416,7 @@ Summary: A module for PHP applications that interface with .bz2 files
 Group: Development/Languages
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-bz2 = %{version}-%{release}, %{?scl_prefix}php-bz2%{?_isa} = %{version}-%{release}
 
 %description bz2
@@ -426,6 +428,7 @@ Summary: A module for PHP applications that need date/time calculations
 Group: Development/Languages
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-calendar = %{version}-%{release}, %{?scl_prefix}php-calendar%{?_isa} = %{version}-%{release}
 
 %description calendar
@@ -437,6 +440,7 @@ Summary: A module for PHP applications that need to interface with curl
 Group: Development/Languages
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Requires: %{ns_name}-libcurl >= %{ea_libcurl_ver}
 BuildRequires: libssh2 libssh2-devel libidn libidn-devel ea-libnghttp2-devel
 Provides: %{?scl_prefix}php-curl = %{version}-%{release}, %{?scl_prefix}php-curl%{?_isa} = %{version}-%{release}
@@ -455,6 +459,7 @@ Summary: A module for PHP applications that need to work with image metadata
 Group: Development/Languages
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-exif = %{version}-%{release}, %{?scl_prefix}php-exif%{?_isa} = %{version}-%{release}
 
 %description exif
@@ -468,6 +473,7 @@ Summary: A module for PHP applications that need to detect file types
 Group: Development/Languages
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-fileinfo = %{version}-%{release}, %{?scl_prefix}php-fileinfo%{?_isa} = %{version}-%{release}
 
 %description fileinfo
@@ -479,6 +485,7 @@ used do a very good job.
 
 %package ftp
 Summary: A module for PHP applications that need full FTP protocol support
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Group: Development/Languages
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
@@ -499,6 +506,7 @@ Summary: A module for PHP applications that need native language support
 Group: Development/Languages
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-gettext = %{version}-%{release}, %{?scl_prefix}php-gettext%{?_isa} = %{version}-%{release}
 
 %description gettext
@@ -514,6 +522,7 @@ Summary: A module for PHP applications that need to convert character sets
 Group: Development/Languages
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-iconv = %{version}-%{release}, %{?scl_prefix}php-iconv%{?_isa} = %{version}-%{release}
 
 %description iconv
@@ -534,6 +543,7 @@ Group: Development/Languages
 License: PHP
 Provides: %{?scl_prefix}php-imap%{?_isa} = %{version}-%{release}
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Requires: %{?scl_prefix}libc-client%{?_isa}
 Requires: ea-openssl >= %{ea_openssl_ver}
 BuildRequires: krb5-devel%{?_isa}, ea-openssl >= %{ea_openssl_ver}, ea-openssl-devel >= %{ea_openssl_ver}
@@ -551,6 +561,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Requires: ea-openssl >= %{ea_openssl_ver}
 BuildRequires: cyrus-sasl-devel, openldap-devel, ea-openssl >= %{ea_openssl_ver}, ea-openssl-devel >= %{ea_openssl_ver}
 
@@ -566,6 +577,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 # ABI/API check - Arch specific
 Provides: %{?scl_prefix}php-pdo-abi = %{pdover}%{isasuffix}
 Provides: %{?scl_prefix}php(pdo-abi) = %{pdover}%{isasuffix}
@@ -632,6 +644,7 @@ Summary: Modules for PHP scripts that need access to POSIX functions
 Group: Development/Languages
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-posix = %{version}-%{release}, %{?scl_prefix}php-posix%{?_isa} = %{version}-%{release}
 
 %description posix
@@ -663,6 +676,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-shmop = %{version}-%{release}, %{?scl_prefix}php-shmop%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-sysvsem = %{version}-%{release}, %{?scl_prefix}php-sysvsem%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-sysvshm = %{version}-%{release}, %{?scl_prefix}php-sysvshm%{?_isa} = %{version}-%{release}
@@ -699,6 +713,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 BuildRequires: ea-libxml2-devel
 
 %description soap
@@ -710,6 +725,7 @@ Summary: A module for PHP applications that need low-level access to sockets
 Group: Development/Languages
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-sockets = %{version}-%{release}, %{?scl_prefix}php-sockets%{?_isa} = %{version}-%{release}
 
 %description sockets
@@ -750,6 +766,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}, net-snmp
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 BuildRequires: net-snmp-devel
 
 %description snmp
@@ -764,6 +781,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-dom = %{version}-%{release}, %{?scl_prefix}php-dom%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-domxml = %{version}-%{release}, %{?scl_prefix}php-domxml%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-wddx = %{version}-%{release}, %{?scl_prefix}php-wddx%{?_isa} = %{version}-%{release}
@@ -786,6 +804,7 @@ Group: Development/Languages
 # libXMLRPC is licensed under BSD
 License: PHP and BSD
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 
 %description xmlrpc
 The %{?scl_prefix}php-xmlrpc package contains a dynamic shared object that will add
@@ -800,6 +819,7 @@ Group: Development/Languages
 # ucgendat is licensed under OpenLDAP
 License: PHP and LGPLv2 and BSD and OpenLDAP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 
 %description mbstring
 The %{?scl_prefix}php-mbstring package contains a dynamic shared object that will add
@@ -811,6 +831,7 @@ Group: Development/Languages
 # bundled libgd is licensed under BSD
 License: PHP and BSD
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Requires: libjpeg-turbo%{?_isa}, libpng%{?_isa}, libXpm%{?_isa}, freetype%{?_isa}
 BuildRequires: libjpeg-turbo-devel%{?_isa}, libpng-devel%{?_isa}, libXpm-devel%{?_isa}, freetype-devel%{?_isa}
 %if %{with_t1lib}
@@ -833,6 +854,7 @@ Group: Development/Languages
 License: PHP
 BuildRequires: gmp-devel
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 
 %description gmp
 These functions allow you to work with arbitrary-length integers
@@ -845,6 +867,7 @@ Group: Development/Languages
 # libbcmath is licensed under LGPLv2+
 License: PHP and LGPLv2+
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 
 %description bcmath
 The %{?scl_prefix}php-bcmath package contains a dynamic shared object that will add
@@ -857,6 +880,7 @@ Group: Development/Languages
 License: PHP
 BuildRequires: %{db_devel}, tokyocabinet-devel
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 
 %description dba
 The %{?scl_prefix}php-dba package contains a dynamic shared object that will add
@@ -869,6 +893,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Requires: %{ns_name}-libmcrypt
 BuildRequires: %{ns_name}-libmcrypt-devel
 
@@ -884,6 +909,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Requires: %{ns_name}-libtidy
 BuildRequires: %{ns_name}-libtidy-devel
 
@@ -915,6 +941,7 @@ database server which supports TDS can be accessed.
 Summary: PHP library for embedding in applications
 Group: System Environment/Libraries
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 # doing a real -devel package for just the .so symlink is a bit overkill
 Provides: %{?scl_prefix}php-embedded-devel = %{version}-%{release}
 Provides: %{?scl_prefix}php-embedded-devel%{?_isa} = %{version}-%{release}
@@ -930,6 +957,7 @@ Group: System Environment/Libraries
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 BuildRequires: aspell-devel >= 0.50.0
 
 %description pspell
@@ -943,6 +971,7 @@ Group: System Environment/Libraries
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 BuildRequires: recode-devel
 Conflicts: %{?scl_prefix}php-imap = %{version}-%{release}
 
@@ -957,6 +986,7 @@ Group: System Environment/Libraries
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 BuildRequires: libicu-devel >= 4.0
 
 %description intl
@@ -970,6 +1000,7 @@ Summary: Enchant spelling extension for PHP applications
 License: PHP
 Group: System Environment/Libraries
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 BuildRequires: enchant-devel >= 1.2.4
 
 %description enchant
@@ -983,6 +1014,7 @@ Summary: A module for PHP applications that need to handle .zip files
 Group: Development/Languages
 License: PHP
 Requires: %{?scl_prefix}php-common%{?_isa} = %{version}-%{release}
+Requires: %{?scl_prefix}php-cli%{?_isa} = %{version}-%{release}
 Provides: %{?scl_prefix}php-zip = %{version}-%{release}, %{?scl_prefix}php-zip%{?_isa} = %{version}-%{release}
 
 %description zip
@@ -1474,8 +1506,14 @@ install -m 755 build-apache/sapi/litespeed/php $RPM_BUILD_ROOT%{_bindir}/lsphp
 %if %{with_fpm}
 # PHP-FPM stuff
 # Log
-install -d $RPM_BUILD_ROOT%{_localstatedir}/log/php-fpm
-install -d $RPM_BUILD_ROOT%{_localstatedir}/run/php-fpm
+
+# we need to do the following to compensate for the way
+# EA4 on OBS was built rather than EA4-Opensuse
+install -d $RPM_BUILD_ROOT/opt/cpanel/%{ns_name}-%{pkg}/root/usr/var/log/php-fpm
+install -d $RPM_BUILD_ROOT/opt/cpanel/%{ns_name}-%{pkg}/root/usr/var/run/php-fpm
+ln -sf /opt/cpanel/%{ns_name}-%{pkg}/root/usr/var/log/php-fpm $RPM_BUILD_ROOT%{_localstatedir}/log/php-fpm
+ln -sf /opt/cpanel/%{ns_name}-%{pkg}/root/usr/var/run/php-fpm $RPM_BUILD_ROOT%{_localstatedir}/run/php-fpm
+
 # Config
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d
 install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf
@@ -1777,6 +1815,10 @@ fi
 %if %{with_fpm}
 %files fpm
 %defattr(-,root,root)
+# we need to do the following to compensate for the way
+# EA4 on OBS was built rather than EA4-Opensuse
+%attr(770,nobody,root) %dir /opt/cpanel/%{ns_name}-%{pkg}/root/usr/var/log/php-fpm
+%attr(711,root,root) %dir /opt/cpanel/%{ns_name}-%{pkg}/root/usr/var/run/php-fpm
 %doc php-fpm.conf.default
 %doc fpm_LICENSE
 %config(noreplace) %{_sysconfdir}/php-fpm.conf
@@ -1792,13 +1834,12 @@ fi
 %{_sbindir}/php-fpm
 %attr(0710,root,root) %dir %{_sysconfdir}/php-fpm.d
 # log owned by nobody for log
-%attr(770,nobody,root) %dir %{_localstatedir}/log/php-fpm
-%attr(711,root,root) %dir %{_localstatedir}/run/php-fpm
+%attr(770,nobody,root) %{_localstatedir}/log/php-fpm
+%attr(711,root,root) %{_localstatedir}/run/php-fpm
 %{_mandir}/man8/php-fpm.8*
 %dir %{_datadir}/fpm
 %{_datadir}/fpm/status.html
 %dir %{_sysconfdir}/sysconfig
-%dir %{_sbindir}
 %dir %{_mandir}/man8
 %dir %{_localstatedir}/log
 %dir %{_localstatedir}/run
@@ -1890,6 +1931,12 @@ fi
 
 
 %changelog
+* Thu Mar 05 2020 Daniel Muey <dan@cpanel.net> - 5.6.40-13
+- ZC-6270: Fix circular deps like EA-8854
+
+* Tue Mar 03 2020 Julian Brown <julian.brown@cpanel.net> - 5.6.40-12
+- ZC-6247: Remove multiple conflicts between php-fpm and other rpms
+
 * Fri Nov 22 2019 Tim Mullin <tim@cpanel.net> - 5.6.40-11
 - EA-8762: Update litespeed from upstream to 7.6
 
