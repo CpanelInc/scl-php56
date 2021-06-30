@@ -51,7 +51,7 @@
 %global with_lsws     1
 
 # Regression tests take a long time, you can skip 'em with this
-%{!?runselftest: %{expand: %%global runselftest 1}}
+%{!?runselftest: %{expand: %%global runselftest 0}}
 
 # Use the arch-specific mysql_config binary to avoid mismatch with the
 # arch detection heuristic used by bindir/mysql_config.
@@ -157,7 +157,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.40
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 18
+%define release_prefix 19
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1933,6 +1933,9 @@ fi
 
 
 %changelog
+* Mon Jun 28 2021 Travis Holloway <t.holloway@cpanel.net> - 5.6.40-19
+- EA-9013: Disable %check section
+
 * Fri Mar 05 2021 Cory McIntire <cory@cpanel.net> - 5.6.40-18
 - EA-9625: Update litespeed to 7.9
 
