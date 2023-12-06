@@ -1,4 +1,8 @@
+%define debug_package %{nil}
+%define _enable_debug_packages %{nil}
+
 # Defining the package namespace
+
 # NOTE: pkg variable is a hack to fix invalid macro inside of macros.php
 %global ns_name ea
 %global ns_dir /opt/cpanel
@@ -157,7 +161,7 @@ Vendor:   cPanel, Inc.
 Name:     %{?scl_prefix}php
 Version:  5.6.40
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4584 for more details
-%define release_prefix 21
+%define release_prefix 22
 Release: %{release_prefix}%{?dist}.cpanel
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -201,6 +205,7 @@ Patch105: php-5.6.x-fpm-jailshell.patch
 Patch106: php-5.6.32-ftp-init-openssl.patch
 
 Patch200: php-fpm.epoll.patch
+Patch201: 0001-Update-libxml-include-file-references.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -1040,6 +1045,7 @@ inside them.
 %patch105 -p1 -b .fpmjailshell
 %patch106 -p1 -b .ftpinitopenssl
 %patch200 -p1 -b .fpmepoll
+%patch201 -p1 -b .libxml
 sed -i 's/buffio.h/tidybuffio.h/' ext/tidy/*.c
 
 # Prevent %%doc confusion over LICENSE files
@@ -1933,6 +1939,9 @@ fi
 
 
 %changelog
+* Tue Nov 21 2023 Tim Mullin <tim@cpanel.net> - 5.6.40-22
+- EA-11821: Patch to build with the latest ea-libxml2
+
 * Wed Mar 02 2022 Travis Holloway <t.holloway@cpanel.net> - 5.6.40-21
 - EA-10532: Update litespeed to 8.0.1
 
